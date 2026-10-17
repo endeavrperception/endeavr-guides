@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Team VPN Handbook</title>
+  <style>
+:root{font-family:Segoe UI,Arial,sans-serif;color:#233347;background:#f4f6fa;line-height:1.7;font-size:16px}*{box-sizing:border-box}body{margin:0}main{max-width:1060px;margin:auto;padding:64px 32px}header{max-width:740px;margin-bottom:28px}.eyebrow,.label{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;font-weight:700;color:#53718b}h1{font-size:48px;line-height:1.12;letter-spacing:-1.8px;margin:18px 0}h2{font-size:24px;line-height:1.3;margin:0 0 18px}h3{font-size:18px;line-height:1.4;margin:30px 0 12px}.lead{font-size:19px;color:#596b7e}.label{letter-spacing:.7px;color:#697989}p{margin:12px 0}a{color:#176297;text-underline-offset:4px}a:hover{color:#0c4069}a:focus-visible,summary:focus-visible{outline:3px solid #499cdd;outline-offset:5px}.status{border:1px solid #d6e4f1;border-left:5px solid #367eb1;background:#eaf2fa;border-radius:12px;padding:20px 24px;margin-bottom:28px}.status p{margin:5px 0}.note{font-size:14px;color:#596c80}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:28px 0 32px}.quick a{text-decoration:none;color:inherit;padding:22px;background:white;border:1px solid #dde4ed;border-radius:14px}.quick a:hover{border-color:#367eb1}.quick span{display:block;color:#3273a3;font-size:12px;font-weight:700;letter-spacing:1px}.quick strong{display:block;font-size:20px;margin:8px 0}.quick p{font-size:14px;color:#596c80;margin:0}nav{margin:28px 0 36px}nav ol{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0}nav li{margin:0;padding:0}nav a{display:block;text-decoration:none;font-size:13px;background:#e7edf4;border-radius:30px;padding:7px 14px}section{scroll-margin-top:20px;margin:14px 0;background:white;border:1px solid #dce3ec;border-radius:14px;overflow:hidden}section>details>summary{font-size:21px;line-height:1.35;padding:24px 28px;font-weight:650;cursor:pointer;list-style:none;display:flex;align-items:center;gap:16px}section>details>summary::-webkit-details-marker{display:none}section>details>summary:after{content:'+';margin-left:auto;font-size:24px;font-weight:400;color:#58728b}section>details[open]>summary:after{content:'−'}section>details[open]>summary{border-bottom:1px solid #e6ebf1}.num{font-size:12px;font-weight:700;color:#6d8499;background:#f0f4f8;border-radius:7px;padding:6px 8px}.section-body{padding:8px 28px 28px;max-width:850px}.section-body>p{max-width:72ch}ul,ol{padding-left:23px;margin:16px 0}li{padding-left:5px;margin:12px 0}.steps strong{display:block}.steps li{margin:20px 0}.section-body details{border:1px solid #dce4ed;border-radius:10px;margin:12px 0;overflow:hidden}.section-body details>summary{cursor:pointer;padding:15px 18px;font-weight:650;background:#f6f8fb}.fold-body{padding:4px 18px 18px}.fold-body h3{margin-top:18px}.section-body details>p{padding:0 18px 12px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f6fa;border:1px solid #dbe3ed;border-radius:10px;padding:20px;font-size:13px;line-height:1.8}code{font-family:Consolas,monospace;font-size:.92em}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px;margin:20px 0}caption{text-align:left;font-size:12px;color:#62778b;padding-bottom:10px}th,td{text-align:left;vertical-align:top;padding:16px;border-bottom:1px solid #e1e7ef}th{background:#f3f6fa}td:first-child{font-weight:650;width:25%}.checklist{list-style:none;padding:0}.checklist li{position:relative;padding:12px 16px 12px 42px;background:#f6f8fb;border-radius:8px;margin:8px 0}.checklist li:before{content:'☐';position:absolute;left:16px;color:#3976a5}.contact{background:#eaf2fa;padding:28px;margin-top:28px}.contact h2{font-size:21px}footer{font-size:12px;color:#65768a;padding:24px 0;max-width:85ch}.toolbar{display:flex;gap:12px;margin-bottom:16px}.toolbar button{font:inherit;font-size:13px;border:1px solid #cdd9e5;background:white;color:#34556f;padding:8px 13px;border-radius:8px;cursor:pointer}.toolbar button:hover{background:#eaf2fa}.hero{display:block;width:100%;height:auto;margin:6px 0 10px;color:#233347}.journey{display:flex;list-style:none;padding:0;margin:0 0 22px}.journey li{flex:1;position:relative;text-align:center;margin:0;padding:0}.journey li:not(:last-child):after{content:'';position:absolute;top:17px;left:50%;width:100%;height:3px;background:#d6e4f1}.journey a{position:relative;z-index:1;display:block;text-decoration:none;color:#53718b;font-size:12px;font-weight:700;line-height:1.3}.journey span{display:block;width:34px;height:34px;margin:0 auto 6px;border-radius:50%;background:#367eb1;color:#fff;line-height:34px;font-size:14px}@media(max-width:650px){.journey a{font-size:11px}}html{scroll-behavior:smooth}@media(max-width:650px){main{padding:30px 16px}h1{font-size:35px;letter-spacing:-1px}.quick{grid-template-columns:1fr;gap:10px}.quick a{padding:16px 20px}.quick strong{font-size:18px;margin:4px 0}section>details>summary{font-size:18px;padding:20px 16px;gap:10px}.section-body{padding:6px 18px 22px}.lead{font-size:17px}nav a{font-size:12px}th,td{padding:10px}pre{padding:14px;font-size:12px}.num{font-size:11px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}@media print{body{background:white}main{max-width:none;padding:0}header{max-width:none}h1{font-size:30px}.quick,nav,.toolbar{display:none}section{border:0;border-radius:0;margin:20px 0}section>details>summary{padding:10px 0;border-bottom:1px solid #bbb;font-size:20px}.section-body{max-width:none;padding:0}details::details-content{display:block!important;content-visibility:visible!important}section>details>summary:after{display:none}.section-body details{break-inside:avoid}pre,table{font-size:11px}.status{padding:12px}a{color:inherit}footer{font-size:10px}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">For existing Tailscale members</div>
+    <h1>Your guide to the new team VPN</h1>
+    <p class="label">Member guide · Version 4 · October 16, 2026</p>
+    <p class="lead">We now host and manage our own VPN server. This guide explains what changes, how you join from a laptop or a phone, and how access is protected.</p>
+  </header>
+
+  <aside class="status" aria-label="Current action required">
+    <p><strong>Keep Tailscale installed for now, but you can enroll as soon as John invites you.</strong></p>
+    <p>The public server has been live since October 10, 2026 and John's own computers already connect through it. Members join one at a time: wait for your personal invitation link, then follow sections 03 and 04. Do not remove Tailscale or replace existing connection addresses until John confirms your device passed its independent test.</p>
+    <p class="note">Server address for every device, laptop or phone: <code>https://your-server.example</code>. No team-wide cutover date has been announced.</p>
+  </aside>
+
+  <svg class="hero" viewBox="0 0 640 120" role="img" aria-label="Your laptop or phone connects over the internet to the lab VPN server, protected by MFA, which lets it reach the lab machines">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+      <rect x="22" y="38" width="62" height="40" rx="5"/><path d="M12 86h82"/>
+      <rect x="92" y="30" width="26" height="52" rx="6"/><circle cx="105" cy="74" r="2" fill="currentColor"/>
+      <path d="M136 58h60" stroke-dasharray="4 5"/><path d="M190 52l8 6-8 6"/>
+      <path d="M214 68c-10 0-14-8-10-15 2-10 16-13 22-6 4-10 22-8 24 2 10-2 16 8 10 15-3 4-8 4-8 4h-38z" fill="#eaf2fa"/>
+      <path d="M268 58h50" stroke-dasharray="4 5"/><path d="M312 52l8 6-8 6"/>
+      <rect x="332" y="28" width="92" height="64" rx="8" fill="#eaf2fa"/>
+      <path d="M344 46h40M344 60h32M344 74h22"/>
+      <rect x="395" y="56" width="20" height="16" rx="3" fill="#fff"/><path d="M399 56v-5a6 6 0 0 1 12 0v5"/>
+      <path d="M438 58h30"/><path d="M462 52l8 6-8 6"/>
+      <rect x="480" y="26" width="70" height="18" rx="4"/><rect x="480" y="50" width="70" height="18" rx="4"/><rect x="480" y="74" width="70" height="18" rx="4"/>
+      <circle cx="540" cy="35" r="2" fill="currentColor"/><circle cx="540" cy="59" r="2" fill="currentColor"/><circle cx="540" cy="83" r="2" fill="currentColor"/>
+    </g>
+    <g font-size="11" fill="#62778b" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif">
+      <text x="66" y="108">Your laptop or phone</text><text x="236" y="108">Internet</text><text x="378" y="108">Lab VPN server · MFA</text><text x="515" y="108">Lab machines</text>
+    </g>
+  </svg>
+  <ol class="journey" aria-label="Four steps">
+    <li><a href="#join"><span>1</span>Invitation link</a></li>
+    <li><a href="#join"><span>2</span>Password + MFA</a></li>
+    <li><a href="#install"><span>3</span>Install + connect</a></li>
+    <li><a href="#verify"><span>4</span>Verify with John</a></li>
+  </ol>
+  <div class="quick" aria-label="Your next steps">
+    <a href="#prepare"><span>01 / NOW</span><strong>Request your access</strong><p>Send John your devices and the resources you need.</p></a>
+    <a href="#join"><span>02 / WHEN INVITED</span><strong>Set up your account</strong><p>Create your password, enable MFA, and connect from a laptop or phone.</p></a>
+    <a href="#verify"><span>03 / BEFORE SWITCHING</span><strong>Test with John</strong><p>Keep Tailscale until independent access is verified.</p></a>
+  </div>
+  <nav aria-label="Contents"><ol>
+    <li><a href="#overview">What changes and what stays familiar</a></li>
+    <li><a href="#prepare">Prepare your device and request access</a></li>
+    <li><a href="#join">Invitation, password, and MFA</a></li>
+    <li><a href="#install">Windows, macOS, Linux, Android, and iPhone installation</a></li>
+    <li><a href="#permissions">Understand your access</a></li>
+    <li><a href="#ssh">SSH, keys, and server accounts</a></li>
+    <li><a href="#verify">Verify your migration</a></li>
+    <li><a href="#security">Everyday security and lost devices</a></li>
+    <li><a href="#help">Troubleshooting and support</a></li>
+    <li><a href="#faq">Frequently asked questions</a></li>
+  </ol></nav><div class="toolbar"><button type="button" id="expand">Expand all</button><button type="button" id="collapse">Collapse all</button><button type="button" id="print">Print / Save PDF</button></div>
+
+  <section id="overview"><details class="chapter"><summary><span class="num">01</span><span>Why we are making this change</span></summary><div class="section-body">
+    <p>Self-hosted NetBird gives us control over our VPN server, user accounts, and access policies, without a per-member VPN subscription for the Community Edition. We take responsibility for server operation, updates, and backups.</p>
+    <p>NetBird uses its own application. The dashboard is NetBird's standard interface running on our server; it is not the NetBird Cloud service.</p>
+    <div class="table-wrap"><table>
+      <caption>What the migration means for members</caption>
+      <thead><tr><th scope="col">Area</th><th scope="col">What to expect</th></tr></thead>
+      <tbody>
+        <tr><td>VPN account</td><td>Your Tailscale identity does not automatically become a NetBird account. You will receive an individual invitation.</td></tr>
+        <tr><td>Device registration</td><td>Each laptop, workstation, or phone needs its own registration. Signing in on one device does not enroll your other devices.</td></tr>
+        <tr><td>Server addresses</td><td>Old Tailscale IPs and hostnames may need to be replaced. John will supply the tested destination for each resource.</td></tr>
+        <tr><td>SSH and development tools</td><td>SSH, SCP, SFTP, and tools such as VS Code Remote SSH can use an authorized network path, but their account, key, and connection settings still need verification.</td></tr>
+        <tr><td>Permissions</td><td>Membership does not mean unrestricted access. Access is assigned to approved devices and resources.</td></tr>
+        <tr><td>Internet browsing</td><td>Do not select an exit node or route all internet traffic through the lab unless John explicitly provides that configuration.</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Readiness:</strong> the pilot demonstrated SSH connectivity and policy blocking, and the external HTTPS address has been live since October 10, 2026. John's Windows PC and the lab servers now connect through it without Tailscale. What remains is each member's own independent test from an outside network; some campus and office networks have been observed to reset the connection to our server (see section 09). This guide prepares your migration; it is not an announcement that the whole team has switched.</p>
+  </div></details></section>
+
+  <section id="prepare"><details class="chapter" open><summary><span class="num">02</span><span>What you need to do now</span></summary><div class="section-body">
+    <ul>
+      <li>Keep your existing Tailscale connection available during the transition.</li>
+      <li>Tell John which devices you need to connect and which servers or services you need to access.</li>
+      <li>Have an authenticator app ready for multi-factor authentication (MFA).</li>
+      <li>Do not install a new VPN on a company-managed device without the required authorization.</li>
+    </ul>
+    <h3>Send this access request to John</h3>
+    <p>Use your existing trusted communication channel. Ask only for the resources needed for your work.</p>
+    <pre>Name:
+Email for the invitation:
+Device name:
+Operating system and version:
+Device ownership: personal / organization-managed
+Resources needed: GPU server / robot system / test workstation / other
+Tasks needed: SSH / file transfer / web application / other
+Existing remote OS username, if known:
+Access duration: ongoing / until a specific date
+Expected connection locations: home / lab / other
+Availability for the migration test:</pre>
+    <p class="note">Do not include a password, SSH private key, MFA code, or enrollment token. A public SSH key may be requested separately.</p>
+    <h3>Before you install</h3>
+    <ul>
+      <li>Confirm that you have permission to install networking software. If local administrator approval is needed, arrange it first.</li>
+      <li>Save the current SSH hostnames and connection settings you use, so they can be checked during migration.</li>
+      <li>Use a recognizable device name, such as <code>alice-laptop</code> or <code>alice-phone</code>. Report replacements or duplicate registrations to John.</li>
+      <li>On a phone or tablet only one VPN app can be active at a time. You will need to disconnect Tailscale on that phone while NetBird connects; you can switch back at any time during the transition.</li>
+      <li>For a remote-only server, John must establish a recovery path before changing its VPN connection. Do not disconnect its only working management connection.</li>
+    </ul>
+  </div></details></section>
+
+  <section id="join"><details class="chapter"><summary><span class="num">03</span><span>How you will join</span></summary><div class="section-body">
+    <ol class="steps">
+      <li><strong>Receive a personal invitation link.</strong> John creates it on our own NetBird server and sends it to you privately. It expires, normally within 3 days; ask for a new one if it has lapsed. Invitations are intended for a specific person and must not be forwarded.</li>
+      <li><strong>Create your own password and enroll in MFA.</strong> Open the link, set a unique password, and sign in. You will then be asked to scan an MFA QR code with your own authenticator app (Google Authenticator, Microsoft Authenticator, Authy, or similar). Nobody needs your password, one-time codes, or MFA QR code.</li>
+      <li><strong>Install the official NetBird application and point it at our server.</strong> Our address is <code>https://your-server.example</code>. Use it instead of the default NetBird Cloud service; section 04 shows where to enter it on each device.</li>
+      <li><strong>Sign in and send John your device name and NetBird IP.</strong> Registration alone grants no access: the app will say Connected but nothing is reachable until John adds that device to an access group.</li>
+      <li><strong>Test your approved connections.</strong> Confirm that the servers and services you need work through NetBird. Connection names or VPN IP addresses may change; use the updated instructions provided for your devices.</li>
+      <li><strong>Switch only after verification.</strong> We will test access with Tailscale disconnected. Remove Tailscale only when John confirms that your device has completed the migration.</li>
+    </ol>
+    <p class="note">The initial plan uses individual accounts on our server. Google or GitHub login has not been configured; do not assume an existing social account will sign you in.</p>
+    <h3>What you should receive before starting</h3>
+    <ul>
+      <li>Your personal invitation link and its expiration time.</li>
+      <li>The <strong>server address</strong>, which is the same for everyone: <code>https://your-server.example</code>.</li>
+      <li>Your approved resource list, including destination hostname or IP, service port, and OS username where applicable.</li>
+      <li>A migration test window and an agreed fallback procedure.</li>
+    </ul>
+    <p><strong>Only that address is valid.</strong> Do not use a demonstration URL, <code>localhost</code>, or an address copied from someone else's screenshots. If an invitation or message shows a different host, stop and confirm with John.</p>
+    <h3>Account and MFA checklist</h3>
+    <ol>
+      <li>Open the invitation supplied by John and check that its host matches the announced server address.</li>
+      <li>Choose a unique password and save it in your password manager.</li>
+      <li>When prompted, scan the MFA QR code using your own authenticator app and enter the current code to finish enrollment.</li>
+      <li>If recovery options are offered, store them privately. Never send the QR code or recovery information to another member.</li>
+      <li>If the invitation has expired, request a replacement. Do not use another member's account.</li>
+    </ol>
+    <p>Ask John for help if your account opens but no resources are available. That can be the expected state before access is assigned; repeatedly reinstalling the app will not grant permissions.</p>
+  </div></details></section>
+
+  <section id="install"><details class="chapter"><summary><span class="num">04</span><span>Install and connect: Windows, macOS, Linux, Android, iPhone</span></summary><div class="section-body">
+    <p><strong>Begin this section after your invitation link has worked once in a browser.</strong> Every device uses the same server address: <code>https://your-server.example</code>. If NetBird is already installed for another network, tell John before changing it.</p>
+    <details class="os"><summary>Windows setup</summary><div class="fold-body">
+    <ol>
+      <li>Open the <a href="https://docs.netbird.io/get-started/install/windows">official Windows installation guide</a> and download the installer specified for the rollout.</li>
+      <li>Run the installer and approve the normal administrator prompt if you are authorized to do so.</li>
+      <li>Open NetBird from the Start menu or system tray. On first launch choose the self-hosted option and enter <code>https://your-server.example</code>. (Existing install: tray icon → Settings → server / management URL.)</li>
+      <li>Select Connect. Complete the browser sign-in using your personal lab account and MFA, then return to NetBird.</li>
+      <li>Confirm the app reports a connection and shows your device's NetBird address. Send John the device name and address for access assignment.</li>
+    </ol>
+    <p>For a status check, open a <strong>new PowerShell window</strong> after installation and run:</p>
+    <pre><code>netbird status</code></pre>
+    <p class="note">A terminal opened before installation may not find the command until it is reopened. A command-not-found error is different from a failed VPN connection.</p>
+    <p>Command-line alternative, in a PowerShell window opened as Administrator:</p>
+    <pre><code>netbird up --management-url 'https://your-server.example'</code></pre>
+    </div></details><details class="os"><summary>macOS setup</summary><div class="fold-body">
+    <ol>
+      <li>Follow the <a href="https://docs.netbird.io/get-started/install/macos">official macOS installation guide</a> using the package approved for your Mac.</li>
+      <li>Open NetBird. Complete the installation's required system authorization prompts; contact John or your IT administrator if a policy blocks installation.</li>
+      <li>Choose the self-hosted deployment, enter <code>https://your-server.example</code>, and connect. Terminal alternative: <code>sudo netbird up --management-url 'https://your-server.example'</code></li>
+      <li>Complete the browser login and MFA. Check the menu-bar app for connection status and your assigned address.</li>
+    </ol>
+    </div></details><details class="os"><summary>Linux setup</summary><div class="fold-body">
+    <ol>
+      <li>Use the instructions for your distribution in the <a href="https://docs.netbird.io/get-started/install/linux">official Linux installation guide</a>. Confirm the CPU architecture, especially for ARM-based devices.</li>
+      <li>Install the client and, if you want a graphical interface, the desktop package described in that guide.</li>
+      <li>For a desktop machine, run <code>sudo netbird up --management-url 'https://your-server.example'</code> (or select the self-hosted server in the desktop app) and complete the same personal browser login.</li>
+      <li>For a machine without a desktop or browser, ask John for a device-specific enrollment procedure. Do not borrow a reusable key from another machine.</li>
+    </ol>
+    <p>After installation, a read-only status check is:</p>
+    <pre><code>netbird status</code></pre>
+    <p class="note">Exact controls can vary with client version. The <a href="https://docs.netbird.io/client/desktop-app">official desktop guide</a> explains the self-hosted first-launch flow. Installing the application, authenticating a device, and authorizing access are separate steps.</p>
+    </div></details><details class="os"><summary>Android phone or tablet</summary><div class="fold-body">
+    <ol>
+      <li>Install <strong>NetBird</strong> from Google Play (Android 8 or newer; link in the <a href="https://docs.netbird.io/get-started/install/android">official Android guide</a>).</li>
+      <li>Open the app and tap <strong>Continue</strong> on the first screen. It mentions the default NetBird Cloud server; the next step replaces it.</li>
+      <li>Tap the <strong>☰ menu</strong> (top left) → <strong>Change Server</strong> → confirm the warning (it only clears the app's default settings).</li>
+      <li>Enter <code>https://your-server.example</code> and tap <strong>Change</strong>. Do not use the setup-key option unless John gave you a key for this phone.</li>
+      <li>Disconnect Tailscale on the phone, then tap the large NetBird button. Tap <strong>OK</strong> when Android asks for permission to create a VPN connection.</li>
+      <li>Sign in with your invited account and MFA in the browser that opens, then return to the app. It should show <strong>Connected</strong> and your NetBird IP (starts with <code>the range John gave you</code>). Send John the phone's name and that IP.</li>
+    </ol>
+    <p class="note">Mobile data works as well as Wi-Fi. If the sign-in page never loads on a campus or office network, try again on mobile data and tell John which network failed.</p>
+    </div></details><details class="os"><summary>iPhone or iPad</summary><div class="fold-body">
+    <ol>
+      <li>Install <strong>NetBird</strong> from the App Store (link in the <a href="https://docs.netbird.io/get-started/install/ios">official iOS guide</a>).</li>
+      <li>Open the app. Before connecting, open its menu or settings and choose the option to change the server (<strong>Change Server</strong> in current versions).</li>
+      <li>Enter <code>https://your-server.example</code> and save.</li>
+      <li>Disconnect Tailscale on the device, tap <strong>Connect</strong>, and tap <strong>Allow</strong> when iOS asks to add a VPN configuration.</li>
+      <li>Sign in with your invited account and MFA, then return to the app. It should show Connected and your NetBird IP (starts with <code>the range John gave you</code>). Send John the device name and that IP.</li>
+    </ol>
+    <p class="note">Exact labels can differ between app versions. If you cannot find the server option, send John a screenshot of the app's menu (no codes or links).</p>
+    </div></details><details class="os"><summary>Computer outside the lab (campus, office, abroad)</summary><div class="fold-body">
+    <p>Enrollment works over the normal internet; you do not need Tailscale, a public IP, or any router change. Use the Windows, macOS, or Linux steps above with the same address.</p>
+    <ul>
+      <li>Some campus and office networks have been observed to reset the connection to our server, so the sign-in page never loads or the client reports a TLS or "connection reset" error. That is the network, not your account.</li>
+      <li>Workaround: do the one-time sign-in on a phone hotspot or home network, then tell John which network failed so he can request an allow-list from IT. After sign-in the client keeps retrying automatically.</li>
+      <li>Do not change proxy, DNS, or firewall settings, and do not install software on an organization-managed computer without authorization.</li>
+      <li>For a server with no browser (headless Linux), ask John for a one-time enrollment key for that machine; never reuse a key from another device.</li>
+    </ul>
+    </div></details><h3>Keep the transition reversible</h3>
+    <p>John may temporarily run both VPNs during testing. If routes or DNS conflict, report it; do not add manual routes or change DNS servers to force a connection. Keep Tailscale available until your independent NetBird test passes.</p>
+  </div></details></section>
+
+  <section id="permissions"><details class="chapter"><summary><span class="num">05</span><span>How access will work</span></summary><div class="section-body">
+    <ul>
+      <li><strong>Access is restricted by default.</strong> Only approved devices, destinations, and service ports will be allowed.</li>
+      <li><strong>Permissions follow your work.</strong> GPU servers, robot systems, and test equipment may have different access groups. Access to one does not imply access to the others.</li>
+      <li><strong>Administrator access is separate.</strong> Ordinary member accounts do not grant control over users, VPN policies, or the management server.</li>
+      <li><strong>SSH remains a separate permission.</strong> A working VPN connection does not create a Linux account or grant SSH or sudo access. Use your assigned account and personally authorized SSH key.</li>
+      <li><strong>Periodic sign-in may be required.</strong> Login-based devices are configured for reauthentication after eight hours and after a management disconnection lasting ten minutes. Headless server enrollment works differently.</li>
+    </ul>
+    <p class="note">The free self-hosted pilot uses administrator-controlled group assignment to restrict device access. This is distinct from NetBird's licensed built-in “Peer Approval” feature.</p>
+    <p><strong>Right after enrollment, expect “Connected” with nothing reachable.</strong> New devices start in no access group. Send John the device name and NetBird IP; access appears shortly after John assigns the group, without reinstalling or signing in again.</p>
+    <p><strong>Check the IP range.</strong> On our server every device gets an address starting with <code>the range John gave you</code>. Any other range (for example <code>100.117.</code>) means the app is signed in to a different NetBird network, usually the default NetBird Cloud or a Google/GitHub account. Repeat section 04 with our server address and the invited lab account.</p>
+    <h3>Three separate checks must pass</h3>
+    <ol>
+      <li><strong>Identity:</strong> your account can authenticate and your device is registered.</li>
+      <li><strong>Network policy:</strong> that device is allowed to reach the requested destination and port.</li>
+      <li><strong>Application permission:</strong> the server accepts your SSH account/key or application login.</li>
+    </ol>
+    <p>The pilot currently allows only a specific SSH test path among the enrolled devices. It does not authorize unrestricted lab traffic. Final member permissions will be assigned before each migration, and ping may remain blocked.</p>
+    <p>A VPN account also does not approve operating a robot or changing shared equipment. Follow the equipment's normal access and coordination procedures.</p>
+  </div></details></section>
+
+  <section id="ssh"><details class="chapter"><summary><span class="num">06</span><span>SSH, file transfer, and development tools</span></summary><div class="section-body">
+    <p>Before attempting SSH, obtain three values from John: <strong>destination, port, and remote OS username</strong>. Your NetBird email and your Linux username may be different.</p>
+    <p>The pilot uses an SSH bridge on port 2222. That is a temporary implementation detail, not a port to assume for every machine. Production instructions may use standard port 22 or another explicitly assigned port.</p>
+    <h3>Windows PowerShell: connect using assigned values</h3>
+    <p>Run the following only after John supplies the connection details. It prompts for values rather than embedding a fake server address:</p>
+    <pre><code>$SshHost = Read-Host 'Assigned server hostname or NetBird IP'
+$SshUser = Read-Host 'Your assigned remote OS username'
+$SshPort = Read-Host 'Assigned SSH port'
+ssh -p $SshPort "$SshUser@$SshHost"</code></pre>
+    <p>This uses your existing SSH configuration and available keys. If a particular key is required, John will provide the correct key-selection instructions for your device. In PowerShell, your home path uses <code>$env:USERPROFILE</code>; the CMD expression <code>%USERPROFILE%</code> is not expanded in the same way.</p>
+    <h3>macOS or Linux: command format</h3>
+    <p>The following is a <strong>format illustration, not a ready-to-run command</strong>. Replace each uppercase label with your assigned value:</p>
+    <pre><code>ssh -p ASSIGNED_PORT YOUR_OS_USERNAME@ASSIGNED_HOST</code></pre>
+    <h3>SSH key handling</h3>
+    <ul>
+      <li>Use your own existing authorized key, or generate a separate key when requested. Do not overwrite an existing key file.</li>
+      <li>Only the public key, normally ending in <code>.pub</code>, is provided for server registration. The private key stays on your device.</li>
+      <li>On first connection, verify the server's host-key fingerprint through John before accepting it. Stop if an existing host key unexpectedly changes.</li>
+      <li>For VS Code Remote SSH, use the confirmed host, user, port, and identity file. Keep the old working host entry until the new connection is verified.</li>
+      <li>SCP and SFTP need the same authorized destination and credentials. Test with a small, non-sensitive file before relying on large transfers.</li>
+    </ul>
+    <p><strong>Never fix an SSH error by sharing a private key, disabling host-key checking, or enabling root login.</strong> A public-key authentication error usually means the network reached an SSH service but the username/key combination was not accepted.</p>
+  </div></details></section>
+
+  <section id="verify"><details class="chapter"><summary><span class="num">07</span><span>Migration acceptance checklist</span></summary><div class="section-body">
+    <p>Complete this with John for <strong>each device</strong>. One successful device does not validate every laptop or server.</p>
+    <ul class="checklist">
+      <li>The client is connected to the announced self-hosted management URL.</li>
+      <li>Your account and MFA work, and John has identified the correct registered device.</li>
+      <li>Your approved server connection succeeds with the assigned address, port, and account.</li>
+      <li>Your required workflow works: terminal, file transfer, editor, or approved web application.</li>
+      <li>John verifies that an explicitly chosen unauthorized destination or port is blocked. Do not scan the lab network.</li>
+      <li>From a different network, such as a mobile hotspot, the approved workflow works with Tailscale disconnected.</li>
+      <li>After reconnecting or rebooting at an agreed time, access recovers or prompts for reauthentication as expected.</li>
+      <li>You know how to report a failure and how to use the agreed fallback during the migration window.</li>
+      <li>John explicitly confirms that this device is ready to retire its Tailscale connection.</li>
+    </ul>
+    <p class="note">Do not stop the sole VPN connection on a remote-only host while connected through it. Independent testing must have a local operator, console, or other confirmed recovery path.</p>
+    <h3>Send a completion report</h3>
+    <pre>Device:
+Date/time and time zone:
+Test network: lab / home / mobile hotspot / other
+NetBird connected: yes / no
+Approved resources tested:
+SSH / file transfer / application results:
+Tailscale disconnected during independent test: yes / no
+Reconnect or reboot result:
+Remaining problems:
+John's cutover confirmation: pending / received</pre>
+  </div></details></section>
+
+  <section id="security"><details class="chapter"><summary><span class="num">08</span><span>Security rules for everyone</span></summary><div class="section-body">
+    <ul>
+      <li>Use your own account. Do not share logins or SSH private keys.</li>
+      <li>Keep your operating system and VPN application updated, and lock your device when unattended.</li>
+      <li>Do not share invitation links, device enrollment keys, passwords, or MFA secrets in team chats.</li>
+      <li>Do not open router ports, publish internal services, or disable security controls to troubleshoot access.</li>
+      <li>If you see a certificate warning, stop and contact John. Do not bypass it.</li>
+      <li>Report a lost device, suspicious login, or exposed credential promptly so access can be revoked.</li>
+    </ul>
+    <h3>If a device or credential is lost</h3>
+    <p>Contact John immediately through your established channel. Identify the affected device or account and the approximate time of the incident. Do not send the exposed secret itself. John will review VPN access, device registration, and any separate SSH credentials; replacing one does not automatically revoke the others.</p>
+    <h3>When you replace a computer or leave the team</h3>
+    <p>Ask for the old device to be removed and request enrollment for the replacement. Do not copy another device's VPN identity or your colleague's credentials. Let John know when access is no longer needed so VPN and server permissions can be removed.</p>
+  </div></details></section>
+
+  <section id="help"><details class="chapter"><summary><span class="num">09</span><span>When something does not work</span></summary><div class="section-body">
+    <p>Send John your device name, operating system, the service you are trying to reach, and the error message. Remove passwords, tokens, invitation links, and other secrets before sharing screenshots or logs.</p>
+    <p>During the transition, keep Tailscale as the fallback until told otherwise. Ping may be intentionally blocked, so a failed ping alone does not mean the VPN is broken.</p>
+    <p>Our server and network can still experience outages. Self-hosting and MFA reduce certain risks; they do not guarantee uninterrupted service or make a system impossible to compromise.</p>
+    <details><summary>“Invalid credentials” at sign-in</summary><div class="fold-body"><p><strong>Try first:</strong> Use exactly the email address John invited. Another address, such as Gmail or a different spelling of your name, has no account. Google and GitHub sign-in are not enabled.</p><p><strong>Tell John:</strong> Which address you typed and which address the invitation went to. Never your password.</p></div></details>
+<details><summary>Invitation expired or rejected</summary><div class="fold-body"><p><strong>Try first:</strong> Check that you used your own latest invitation. Ask for a new link.</p><p><strong>Tell John:</strong> Your account email and the displayed error; omit the invitation token.</p></div></details>
+<details><summary>Certificate warning</summary><div class="fold-body"><p><strong>Try first:</strong> Stop. Verify the announced URL and your device's date/time. Do not bypass the warning.</p><p><strong>Tell John:</strong> Hostname and warning text, without secrets.</p></div></details>
+<details><summary>Sign-in page never loads, or “connection reset” / TLS error</summary><div class="fold-body"><p><strong>Try first:</strong> Check that the address is exactly <code>https://your-server.example</code>. Then retry on a phone hotspot or home network; some campus and office networks block or reset the connection to our server.</p><p><strong>Tell John:</strong> Which network failed, the time, and the error text; omit any link with a token.</p></div></details>
+<details><summary>Phone: VPN permission denied or another VPN is active</summary><div class="fold-body"><p><strong>Try first:</strong> Disconnect Tailscale or any other VPN on the phone, then tap the NetBird button again and accept the VPN permission prompt.</p><p><strong>Tell John:</strong> Phone model, OS version, and whether the app shows Connected.</p></div></details>
+<details><summary>MFA code rejected</summary><div class="fold-body"><p><strong>Try first:</strong> Use the entry for the lab account and enable automatic time on your phone. If access to the authenticator is lost, contact John.</p><p><strong>Tell John:</strong> Account identifier and whether the authenticator is available; never the code or QR.</p></div></details>
+<details><summary>NetBird IP does not start with the range John gave you</summary><div class="fold-body"><p><strong>Try first:</strong> You are on a different NetBird network (usually the default NetBird Cloud). Disconnect, set the server to <code>https://your-server.example</code> as in section 04, and sign in with the lab account from your invitation, not Google or GitHub.</p><p><strong>Tell John:</strong> The device name and the new IP once it starts with the range John gave you</p></div></details>
+<details><summary>Connected, but no resources work</summary><div class="fold-body"><p><strong>Try first:</strong> Check the selected server/profile and whether access has been assigned to this exact device.</p><p><strong>Tell John:</strong> Device name, NetBird address, target, and error.</p></div></details>
+<details><summary>SSH times out</summary><div class="fold-body"><p><strong>Try first:</strong> Check the approved destination and port. The target may be offline or traffic may be blocked.</p><p><strong>Tell John:</strong> Exact command with sensitive values redacted, target, and time.</p></div></details>
+<details><summary>Permission denied (publickey)</summary><div class="fold-body"><p><strong>Try first:</strong> Check the remote OS username and the selected key. VPN membership alone does not authorize SSH.</p><p><strong>Tell John:</strong> Username and public-key fingerprint if requested; never the private key.</p></div></details>
+<details><summary>Host key changed</summary><div class="fold-body"><p><strong>Try first:</strong> Stop and ask John to verify the server identity before modifying known_hosts.</p><p><strong>Tell John:</strong> Target and the fingerprint shown in the warning.</p></div></details>
+<details><summary>Ping fails, SSH works</summary><div class="fold-body"><p><strong>Try first:</strong> ICMP may be intentionally blocked. Use the approved application test.</p><p><strong>Tell John:</strong> No incident is needed if the required workflow works and ICMP was not authorized.</p></div></details>
+<details><summary>IP works, hostname fails</summary><div class="fold-body"><p><strong>Try first:</strong> Ask whether the name is an old Tailscale name. Do not replace system DNS settings on your own.</p><p><strong>Tell John:</strong> The hostname, working destination IP, and active VPNs.</p></div></details>
+<details><summary>Works only with Tailscale enabled</summary><div class="fold-body"><p><strong>Try first:</strong> The migration has not passed its independence test. Keep the fallback and report it.</p><p><strong>Tell John:</strong> Which workflow fails when Tailscale is disconnected.</p></div></details>
+<details><summary>Connection is slow or intermittent</summary><div class="fold-body"><p><strong>Try first:</strong> Check local internet access. Note whether it changes on another network; avoid changing firewall rules.</p><p><strong>Tell John:</strong> Time, network type, client version, and affected workflow.</p></div></details>
+    <h3>Support request template</h3>
+    <pre>Device and operating system:
+NetBird client version:
+Time of failure and time zone:
+Network location/type:
+NetBird connection status:
+Tailscale state: connected / disconnected
+Approved resource and service:
+What I expected:
+What happened / exact error:
+What changed recently:
+Checks already tried:</pre>
+    <p>Start with <code>netbird status</code> or the app's status screen. Share only the relevant portion privately with John; diagnostic output can reveal device names, internal addresses, and network details. Send full diagnostic bundles only when requested.</p>
+  </div></details></section>
+
+  <section id="faq"><details class="chapter"><summary><span class="num">10</span><span>Frequently asked questions</span></summary><div class="section-body">
+    <details><summary>Do I need to create a DuckDNS account or configure my router?</summary><p>No. John manages the server's external address and router configuration. Members receive a ready-to-use HTTPS address. You do not need a public IP or an inbound SSH port on your laptop merely to enroll.</p></details>
+    <details><summary>Do I need Tailscale to join NetBird?</summary><p>No. Enrollment and connection work directly over the internet through the HTTPS address. Keep Tailscale as the fallback until your device passes its independent test, then remove it when John confirms.</p></details>
+    <details><summary>Can I use my phone or tablet?</summary><p>Yes. Android 8 or newer and iPhone/iPad are supported with the official NetBird app; see section 04. A phone counts as its own device and needs its own group assignment. Only one VPN app can be active on a phone at a time.</p></details>
+    <details><summary>Will signing in let John access everything on my laptop?</summary><p>Signing in registers your device in the VPN. Actual reachability depends on policy, device firewall settings, and services running on the device. Do not enable an SSH server or share local services unless that access is specifically required and approved.</p></details>
+    <details><summary>Can I connect several devices?</summary><p>Request access for each device separately. Every new device needs identification and an appropriate group assignment; sharing an account does not replace that process.</p></details>
+    <details><summary>Can I connect to another member's computer?</summary><p>Only if that connection is explicitly authorized. Request the specific purpose and service instead of assuming team membership grants access.</p></details>
+    <details><summary>Is NetBird SSH already enabled?</summary><p>The verified pilot used existing OpenSSH accounts and keys through a restricted test path. Do not assume NetBird's built-in SSH identity feature is deployed or that browser login replaces your SSH key.</p></details>
+    <details><summary>What happens when the server or home internet is down?</summary><p>Registration, authentication, policy updates, and relayed connections may be affected. Existing direct connections may behave differently. Report the outage and use the agreed fallback; no uptime guarantee has been established for the pilot.</p></details>
+    <details><summary>Do I need to buy a VPN subscription?</summary><p>The planned deployment uses self-hosted NetBird Community Edition, so members will not be asked to buy a NetBird Cloud plan for this network. Infrastructure and maintenance remain the administrator's responsibility.</p></details>
+  </div></details></section>
+
+  <section><details class="chapter"><summary><span class="num">11</span><span>Official references</span></summary><div class="section-body">
+    <p>Use these for software instructions. John's messages remain the source for your assigned resources and migration timing.</p>
+    <ul>
+      <li><a href="https://docs.netbird.io/get-started/install/windows">Windows installation</a> · <a href="https://docs.netbird.io/get-started/install/macos">macOS installation</a> · <a href="https://docs.netbird.io/get-started/install/linux">Linux installation</a> · <a href="https://docs.netbird.io/get-started/install/android">Android</a> · <a href="https://docs.netbird.io/get-started/install/ios">iOS</a></li>
+      <li><a href="https://docs.netbird.io/client/desktop-app">Desktop connection and profiles</a> · <a href="https://docs.netbird.io/get-started/cli">CLI reference</a></li>
+      <li><a href="https://docs.netbird.io/selfhosted/identity-providers/local">Self-hosted user invitations</a> · <a href="https://docs.netbird.io/selfhosted/identity-providers/enable-local-mfa">Local MFA</a></li>
+    </ul>
+  </div></details></section>
+
+  <section class="contact">
+    <h2>Migration contact: John</h2>
+    <p>Your next step is to send John your device list and required resources. You will then receive a personal invitation link; the server address is already in this guide.</p>
+  </section>
+  <footer>Version 4 · Updated October 16, 2026 (previous: Version 3, October 10). Server availability and certificate were rechecked on October 16; the Windows, Linux, and Android steps follow the official NetBird documentation, and iPhone labels may differ by app version. The server address is published here because access is protected by personal accounts and MFA; still, share this guide only with team members. This file contains no administrator credentials, enrollment secrets, or tracking scripts. All interface controls run locally in your browser.</footer>
+</main>
+<script>
+const disclosures = () => [...document.querySelectorAll('details')];
+document.getElementById('expand').onclick = () => disclosures().forEach(d => d.open = true);
+document.getElementById('collapse').onclick = () => disclosures().forEach(d => d.open = false);
+function revealTarget() {
+  const id = location.hash.slice(1);
+  const section = document.getElementById(id);
+  if (!section) return;
+  const chapter = section.querySelector('details.chapter');
+  if (chapter) chapter.open = true;
+}
+document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', () => {
+  const section = document.getElementById(a.getAttribute('href').slice(1));
+  if (section) { const d = section.querySelector('details.chapter'); if (d) d.open = true; }
+}));
+window.addEventListener('hashchange', revealTarget);
+revealTarget();
+let printState;
+window.addEventListener('beforeprint', () => { printState = disclosures().map(d => d.open); disclosures().forEach(d => d.open = true); });
+window.addEventListener('afterprint', () => { if (printState) disclosures().forEach((d, i) => d.open = printState[i]); });
+document.getElementById('print').onclick = () => window.print();
+</script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Team VPN Connect</title>
+<style>
+:root{--bg:#f2f5f9;--card:#ffffff;--ink:#17304a;--muted:#5a6f84;--line:#d9e3ee;--accent:#2b6fa8;--accent-ink:#ffffff;--accent-soft:#e4eff9;--ok:#1f9d55;--ok-soft:#e3f6ea;--warn-bg:#fff3d4;--warn-ink:#6b4b00;--term:#13273a;--term-ink:#e9f3ff;--shadow:0 1px 2px rgba(23,48,74,.06),0 8px 24px rgba(23,48,74,.06);--dev:#2b6fa8;--dev-soft:#e4eff9;--dev-ink:#fff}
+body[data-dev="windows"]{--dev:#2b6fa8;--dev-soft:#e4eff9}
+body[data-dev="mac"]{--dev:#5b6b7c;--dev-soft:#e9edf2}
+body[data-dev="linux"]{--dev:#c36f1d;--dev-soft:#fbeede}
+body[data-dev="android"]{--dev:#2e9e5b;--dev-soft:#e3f6ea}
+body[data-dev="ios"]{--dev:#5856d6;--dev-soft:#e9e8fb}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e161f;--card:#16212d;--ink:#e7eef6;--muted:#a3b3c4;--line:#293a4d;--accent:#7fb8ea;--accent-ink:#0b1a28;--accent-soft:#1d3247;--ok:#4cc27e;--ok-soft:#163626;--warn-bg:#3b2f10;--warn-ink:#ffd978;--term:#0a131c;--shadow:none;--dev-ink:#0b1a28}
+:root:not([data-theme="light"]) body[data-dev="windows"]{--dev:#7fb8ea;--dev-soft:#1d3247}
+:root:not([data-theme="light"]) body[data-dev="mac"]{--dev:#b3c0cf;--dev-soft:#263240}
+:root:not([data-theme="light"]) body[data-dev="linux"]{--dev:#f0a35c;--dev-soft:#3a2a14}
+:root:not([data-theme="light"]) body[data-dev="android"]{--dev:#4cc27e;--dev-soft:#163626}
+:root:not([data-theme="light"]) body[data-dev="ios"]{--dev:#a3a1ff;--dev-soft:#26254a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:760px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:28px;line-height:1.2;margin:8px 0 4px;letter-spacing:-.3px}
+.sub{color:var(--muted);margin:0 0 14px}
+.hero{display:block;width:100%;height:auto;margin:6px 0 10px}
+.hero .flow{stroke-dasharray:4 5;animation:dash 1.1s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-18}}
+.btn{appearance:none;border:1px solid var(--line);background:var(--card);color:var(--accent);font:600 14px system-ui;padding:9px 14px;border-radius:10px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;transition:transform .08s,background .2s}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--dev);color:var(--dev-ink);border-color:var(--dev)}
+.btn.copied{background:var(--ok)!important;border-color:var(--ok)!important;color:#fff!important}
+.chip{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 8px 8px 12px;box-shadow:var(--shadow);margin:10px 0;color:inherit;text-decoration:none}
+.chip.cmd{background:var(--term);border-color:var(--term);color:var(--term-ink)}
+.chip svg.ci{flex:none;width:20px;height:20px;color:var(--dev)}
+.chip code{flex:1;min-width:0;font:600 13.5px/1.35 ui-monospace,Consolas,monospace;overflow-wrap:anywhere}
+.chip.one code{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip .btn{flex:none}
+.addr{position:sticky;top:8px;z-index:5;margin:10px 0 18px}
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:0 0 10px}
+@media(max-width:560px){.tiles{grid-template-columns:repeat(3,1fr)}}
+.tile{border:2px solid var(--line);background:var(--card);border-radius:14px;padding:12px 6px 10px;text-align:center;cursor:pointer;color:var(--ink);font:600 13px system-ui;transition:transform .08s,border-color .2s}
+.tile:active{transform:scale(.97)}
+.tile svg{display:block;margin:0 auto 6px;width:36px;height:36px;color:var(--muted)}
+.tile[aria-pressed="true"]{border-color:var(--dev);background:var(--dev-soft)}
+.tile[aria-pressed="true"] svg{color:var(--dev)}
+.req{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;padding:0;list-style:none}
+.req li{display:flex;align-items:center;gap:6px;background:var(--dev-soft);color:var(--dev);font:600 12.5px system-ui;padding:6px 10px;border-radius:20px}
+.req svg{width:16px;height:16px}
+.stepper{display:flex;list-style:none;padding:0;margin:0 0 6px;position:relative}
+.stepper li{flex:1;text-align:center;position:relative}
+.stepper li:not(:last-child):after{content:"";position:absolute;top:18px;left:50%;width:100%;height:3px;background:var(--line);z-index:0;transition:background .3s}
+.stepper li.done:not(:last-child):after{background:var(--ok)}
+.stepper button{position:relative;z-index:1;appearance:none;border:0;background:none;cursor:pointer;color:var(--muted);font:600 12px system-ui;padding:0}
+.stepper .dot{display:block;width:36px;height:36px;margin:0 auto 6px;border-radius:50%;border:3px solid var(--line);background:var(--card);line-height:30px;font-size:15px;color:var(--muted);transition:all .25s}
+.stepper li.active .dot{border-color:var(--dev);background:var(--dev);color:var(--dev-ink);transform:scale(1.1)}
+.stepper li.active button{color:var(--dev)}
+.stepper li.done .dot{border-color:var(--ok);background:var(--ok);color:#fff}
+.progress{height:5px;background:var(--line);border-radius:3px;margin:0 0 16px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--ok);transition:width .35s ease}
+.panel{display:none;background:var(--card);border:1px solid var(--line);border-top:4px solid var(--dev);border-radius:18px;padding:18px 16px;box-shadow:var(--shadow)}
+.panel.active{display:block;animation:rise .28s ease}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.panel h2{font-size:20px;margin:0 0 12px;display:flex;align-items:center;gap:10px}
+.panel h2 .badge{flex:none;width:30px;height:30px;border-radius:50%;background:var(--dev);color:var(--dev-ink);font-size:15px;line-height:30px;text-align:center}
+.panel h2 .devname{color:var(--dev)}
+.panel p{margin:8px 0;color:var(--muted);font-size:14px}
+.story{display:flex;gap:6px;align-items:stretch;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 8px;margin:0 -2px}
+.frame{flex:0 0 150px;scroll-snap-align:start;margin:0;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:8px 8px 6px;display:flex;flex-direction:column}
+.frame svg{width:100%;height:auto;display:block;color:var(--ink)}
+.frame figcaption{font:600 12.5px/1.3 system-ui;color:var(--ink);margin-top:6px;text-align:center}
+.frame figcaption small{display:block;font-weight:500;color:var(--muted);font-size:11.5px}
+.arrow{flex:none;align-self:center;width:18px;height:18px;color:var(--muted)}
+.note{background:var(--warn-bg);color:var(--warn-ink);border-radius:10px;padding:10px 12px;font-size:14px;margin:10px 0 0;display:flex;gap:8px;align-items:flex-start}
+.note svg,.ok svg{flex:none;width:20px;height:20px;margin-top:1px}
+.ok{background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:10px 12px;font-size:14px;font-weight:600;margin:10px 0 0;display:flex;gap:8px;align-items:flex-start}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:14px}
+.chips{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:0}
+@media(max-width:560px){.chips{grid-template-columns:1fr}}
+.chips details{background:var(--card);border:1px solid var(--line);border-radius:12px}
+.chips summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:600;font-size:14px;display:flex;gap:10px;align-items:center}
+.chips summary::-webkit-details-marker{display:none}
+.chips summary svg{flex:none;width:22px;height:22px;color:var(--accent)}
+.chips details p{margin:0;padding:0 14px 12px;color:var(--muted);font-size:14px}
+h3{font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin:26px 0 10px}
+.hidden{display:none!important}
+#feedback{min-height:1.4em;color:var(--accent);font-size:14px;margin:8px 0 0}
+footer{color:var(--muted);font-size:12px;margin-top:28px}
+details.ssh{margin-top:14px;color:var(--muted);font-size:14px}
+details.ssh summary{cursor:pointer;color:var(--accent);font-weight:600}
+.done-banner{display:none;align-items:center;gap:12px;background:var(--ok-soft);color:var(--ok);border-radius:14px;padding:14px 16px;font-weight:600;margin-top:12px;animation:rise .3s ease}
+.done-banner.show{display:flex}
+.done-banner svg{flex:none;width:28px;height:28px}
+/* show only the selected device's pieces */
+.d{display:none}
+body[data-dev="windows"] .d-windows,body[data-dev="mac"] .d-mac,body[data-dev="linux"] .d-linux,body[data-dev="android"] .d-android,body[data-dev="ios"] .d-ios{display:revert}
+body[data-kind="desktop"] .d-desktop,body[data-kind="phone"] .d-phone{display:revert}
+figure.d,.story>svg.d{display:none}
+body[data-dev="windows"] figure.d-windows,body[data-dev="mac"] figure.d-mac,body[data-dev="linux"] figure.d-linux,body[data-dev="android"] figure.d-android,body[data-dev="ios"] figure.d-ios,body[data-kind="desktop"] figure.d-desktop,body[data-kind="phone"] figure.d-phone{display:flex}
+body[data-dev="windows"] svg.d-windows,body[data-dev="mac"] svg.d-mac,body[data-dev="linux"] svg.d-linux,body[data-dev="android"] svg.d-android,body[data-dev="ios"] svg.d-ios,body[data-kind="desktop"] svg.d-desktop,body[data-kind="phone"] svg.d-phone{display:block}
+body[data-dev="windows"] .chip.d-windows,body[data-dev="mac"] .chip.d-mac,body[data-dev="linux"] .chip.d-linux,body[data-kind="desktop"] .chip.d-desktop,body[data-kind="phone"] .chip.d-phone{display:flex}
+/* svg palette (also used inside <symbol>) */
+.scr{fill:var(--card);stroke:currentColor;stroke-width:1.5}
+.bar{fill:var(--dev-soft)}
+.k{fill:var(--dev)}
+.kt{fill:var(--dev-ink);font-weight:700}
+.g{fill:var(--ok)}
+.gs{fill:var(--ok-soft)}
+.ln{stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.mt{fill:var(--muted)}
+.dark{fill:var(--term)}
+.dt{fill:var(--term-ink)}
+.frame text{font-family:system-ui,sans-serif;font-size:8.5px;fill:var(--ink)}
+.frame .mono{font-family:ui-monospace,Consolas,monospace;font-size:7.5px}
+.frame .cap{text-transform:uppercase;letter-spacing:.3px}
+@media(prefers-reduced-motion:reduce){.hero .flow{animation:none}.panel.active,.done-banner{animation:none}}
+</style>
+</head>
+<body data-kind="desktop" data-dev="windows">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="ph-android" viewBox="0 0 150 110"><rect class="scr" x="45" y="4" width="60" height="102" rx="7"/><circle cx="75" cy="9" r="1.7" fill="currentColor"/><rect x="63" y="101" width="24" height="2" rx="1" fill="currentColor" opacity=".45"/></symbol>
+  <symbol id="ph-ios" viewBox="0 0 150 110"><rect class="scr" x="45" y="4" width="60" height="102" rx="12"/><rect x="66" y="8" width="18" height="5" rx="2.5" fill="currentColor"/><rect x="63" y="100" width="24" height="2.2" rx="1.1" fill="currentColor" opacity=".55"/></symbol>
+  <symbol id="win" viewBox="0 0 150 110"><rect class="scr" x="10" y="14" width="130" height="84" rx="4"/><rect class="bar" x="10.7" y="14.7" width="128.6" height="11" rx="3"/><path class="ln" d="M112 20h5M122 17.5h5v5h-5zM132 17.5l5 5M137 17.5l-5 5" stroke-width="1.1"/></symbol>
+  <symbol id="mac" viewBox="0 0 150 110"><rect class="scr" x="10" y="14" width="130" height="84" rx="8"/><rect class="bar" x="10.7" y="14.7" width="128.6" height="11" rx="7"/><circle cx="20" cy="20" r="2.4" fill="#ff5f57"/><circle cx="28" cy="20" r="2.4" fill="#febc2e"/><circle cx="36" cy="20" r="2.4" fill="#28c840"/></symbol>
+  <symbol id="term" viewBox="0 0 150 110"><rect class="dark" x="10" y="14" width="130" height="84" rx="8"/><rect x="10" y="14" width="130" height="11" rx="8" fill="#000" opacity=".25"/></symbol>
+  <symbol id="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<main>
+<h1>Team VPN · connect in 4 steps</h1>
+<p class="sub">Pick your device. Paste the server address John sent you. Keep Tailscale installed until John says otherwise.</p>
+<p class="sub" style="margin-top:-6px"><b>Sign in with the exact email John invited</b>, not another address and not Google or GitHub.</p>
+
+<svg class="hero" viewBox="0 0 640 120" role="img" aria-label="Your device connects over the internet to the lab VPN server, protected by MFA, which lets it reach the lab machines">
+  <g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+    <g class="d d-desktop"><rect x="30" y="34" width="76" height="46" rx="5" fill="var(--dev-soft)"/><path d="M18 88h100"/><g class="d d-windows"><path d="M58 50h20v12H58zM58 64h20v12H58zM80 50h20v12H80zM80 64h20v12H80z" fill="var(--dev)" stroke="none"/></g><g class="d d-mac"><circle cx="68" cy="57" r="9" fill="var(--dev)" stroke="none"/><path d="M60 72h16" stroke="var(--dev)"/></g><g class="d d-linux"><path d="M48 50l8 7-8 7M60 66h14" stroke="var(--dev)" stroke-width="3"/></g></g>
+    <g class="d d-phone"><rect x="48" y="24" width="40" height="70" rx="7" fill="var(--dev-soft)"/><g class="d d-android"><circle cx="68" cy="31" r="1.8" fill="currentColor" stroke="none"/><circle cx="68" cy="58" r="12" fill="var(--dev)" stroke="none"/><path d="M68 51v8" stroke="#fff"/></g><g class="d d-ios"><rect x="60" y="28" width="16" height="5" rx="2.5" fill="currentColor" stroke="none"/><circle cx="68" cy="58" r="12" fill="var(--dev)" stroke="none"/><path d="M68 51v8" stroke="#fff"/><path d="M60 88h16" stroke="currentColor"/></g></g>
+    <path class="flow" d="M136 58h60"/><path d="M190 52l8 6-8 6"/>
+    <path d="M214 68c-10 0-14-8-10-15 2-10 16-13 22-6 4-10 22-8 24 2 10-2 16 8 10 15-3 4-8 4-8 4h-38z" fill="var(--accent-soft)"/>
+    <path class="flow" d="M268 58h50"/><path d="M312 52l8 6-8 6"/>
+    <rect x="332" y="28" width="92" height="64" rx="8" fill="var(--accent-soft)"/>
+    <path d="M344 46h40M344 60h32M344 74h22"/>
+    <rect x="395" y="56" width="20" height="16" rx="3" fill="var(--card)"/><path d="M399 56v-5a6 6 0 0 1 12 0v5"/>
+    <path class="flow" d="M438 58h30"/><path d="M462 52l8 6-8 6"/>
+    <rect x="480" y="26" width="70" height="18" rx="4"/><rect x="480" y="50" width="70" height="18" rx="4"/><rect x="480" y="74" width="70" height="18" rx="4"/>
+    <circle cx="540" cy="35" r="2" fill="var(--ok)" stroke="none"/><circle cx="540" cy="59" r="2" fill="var(--ok)" stroke="none"/><circle cx="540" cy="83" r="2" fill="var(--ok)" stroke="none"/>
+  </g>
+  <g font-size="11" fill="var(--muted)" text-anchor="middle">
+    <text x="68" y="108" id="heroYou">Your Windows PC</text><text x="236" y="108">Internet</text><text x="378" y="108">Lab VPN · MFA</text><text x="515" y="108">Lab machines</text>
+  </g>
+</svg>
+
+<div class="chip one addr">
+  <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+  <input id="addrIn" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="Paste the server address John sent you" aria-label="Server address from John" style="flex:1;min-width:0;font:600 13.5px/1.35 ui-monospace,Consolas,monospace;background:transparent;color:inherit;border:0;outline:none"><code id="addr" hidden></code>
+  <button class="btn primary" data-copy="addr">Copy</button>
+</div>
+
+<div class="tiles" role="group" aria-label="Your device">
+  <button class="tile" data-dev="windows" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M8 8h3v3H8zM13 8h3v3h-3zM8 12h3v3H8zM13 12h3v3h-3z" fill="currentColor" stroke="none"/></svg>Windows</button>
+  <button class="tile" data-dev="mac" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="11" rx="2"/><path d="M2 19h20"/><circle cx="12" cy="10.5" r="2.5" fill="currentColor" stroke="none"/></svg>macOS</button>
+  <button class="tile" data-dev="linux" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/></svg>Linux</button>
+  <button class="tile" data-dev="android" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="2" width="12" height="20" rx="2"/><circle cx="12" cy="4.5" r=".9" fill="currentColor" stroke="none"/><path d="M9 19h6"/></svg>Android</button>
+  <button class="tile" data-dev="ios" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="2" width="12" height="20" rx="3.5"/><rect x="9.5" y="3.5" width="5" height="1.8" rx=".9" fill="currentColor" stroke="none"/><path d="M9.5 20h5"/></svg>iPhone / iPad</button>
+</div>
+<ul class="req" id="req"></ul>
+
+<ol class="stepper" id="stepper">
+  <li class="active"><button data-step="1"><span class="dot">1</span>Invite</button></li>
+  <li><button data-step="2"><span class="dot">2</span>Install</button></li>
+  <li><button data-step="3"><span class="dot">3</span>Connect</button></li>
+  <li><button data-step="4"><span class="dot">4</span>Check</button></li>
+</ol>
+<div class="progress"><i id="bar"></i></div>
+
+<!-- ===== STEP 1 (same on every device) ===== -->
+<section class="panel active" data-step="1">
+  <h2><span class="badge">1</span>Accept John's invitation</h2>
+  <div class="story">
+    <figure class="frame"><svg viewBox="0 0 150 110"><rect class="bar" x="20" y="30" width="110" height="46" rx="12"/><path class="bar" d="M32 76l-6 12 16-8z"/><text x="32" y="48" class="mt">John</text><text x="32" y="63" fill="var(--dev)" font-weight="700" text-decoration="underline">Your invite link →</text><circle cx="120" cy="38" r="3" class="k"/></svg><figcaption>Open John's link<small>In any browser · expires in days</small></figcaption></figure>
+    <svg class="arrow"><use href="#chev"/></svg>
+    <figure class="frame"><svg viewBox="0 0 150 110"><rect class="scr" x="18" y="16" width="114" height="78" rx="8"/><text x="28" y="34" class="mt">New password</text><rect class="bar" x="28" y="40" width="94" height="16" rx="4"/><text x="34" y="52" font-size="11" font-weight="700">••••••••••</text><rect class="k" x="28" y="66" width="94" height="16" rx="6"/><text class="kt" x="75" y="77" text-anchor="middle">Sign in</text></svg><figcaption>Set your own password<small>Unique · save it in a manager</small></figcaption></figure>
+    <svg class="arrow"><use href="#chev"/></svg>
+    <figure class="frame"><svg viewBox="0 0 150 110"><rect class="scr" x="14" y="20" width="66" height="70" rx="6"/><g fill="currentColor"><rect x="22" y="28" width="12" height="12"/><rect x="25" y="31" width="6" height="6" fill="var(--card)"/><rect x="60" y="28" width="12" height="12"/><rect x="63" y="31" width="6" height="6" fill="var(--card)"/><rect x="22" y="66" width="12" height="12"/><rect x="25" y="69" width="6" height="6" fill="var(--card)"/><rect x="40" y="30" width="4" height="4"/><rect x="48" y="36" width="4" height="4"/><rect x="40" y="46" width="8" height="4"/><rect x="54" y="48" width="4" height="4"/><rect x="62" y="48" width="8" height="4"/><rect x="40" y="58" width="4" height="8"/><rect x="48" y="60" width="4" height="4"/><rect x="58" y="58" width="4" height="4"/><rect x="66" y="62" width="6" height="4"/><rect x="40" y="72" width="8" height="4"/><rect x="54" y="68" width="4" height="10"/><rect x="62" y="72" width="10" height="4"/></g><rect class="scr" x="92" y="12" width="46" height="86" rx="7"/><text x="115" y="48" text-anchor="middle" class="mt" font-size="7">Authenticator</text><rect class="gs" x="98" y="54" width="34" height="16" rx="4"/><text x="115" y="66" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ok)">123 456</text><path class="ln" d="M82 55h6" stroke-dasharray="2 2"/></svg><figcaption>Scan the MFA QR code<small>Google/Microsoft Authenticator, Authy…</small></figcaption></figure>
+  </div>
+  <p>No invitation yet? Send John this and wait for the link.</p>
+  <div class="chip"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/></svg><code id="request">Please invite me to the team VPN. Name / Email / Device + OS / Servers needed</code><button class="btn" data-copy="request">Copy</button></div>
+  <div class="nav"><span></span><button class="btn primary" data-go="2">Next: Install →</button></div>
+</section>
+
+<!-- ===== STEP 2 ===== -->
+<section class="panel" data-step="2">
+  <h2><span class="badge">2</span>Install on <span class="devname"></span></h2>
+  <div class="story">
+    <!-- Windows -->
+    <figure class="frame d d-windows"><svg viewBox="0 0 150 110"><use href="#win"/><rect class="bar" x="16" y="30" width="118" height="9" rx="4"/><text x="22" y="37" class="mono mt">docs.netbird.io/…/windows</text><rect class="k" x="38" y="56" width="74" height="18" rx="4"/><text class="kt" x="75" y="68" text-anchor="middle">⤓ Download .exe</text></svg><figcaption>Edge: download the installer</figcaption></figure>
+    <svg class="arrow d d-windows"><use href="#chev"/></svg>
+    <figure class="frame d d-windows"><svg viewBox="0 0 150 110"><use href="#win"/><rect x="10.7" y="14.7" width="128.6" height="11" rx="3" fill="#1e4e8c"/><text x="16" y="23" font-size="7" fill="#fff">User Account Control</text><path d="M22 40l8-4 8 4v8c0 5-4 8-8 10-4-2-8-5-8-10z" fill="#2b6fa8"/><path d="M26 42h8v8h-8z" fill="#f2c94c"/><text x="40" y="43" font-size="7">Do you want to allow this app</text><text x="40" y="52" font-size="7">to make changes? NetBird</text><rect class="k" x="78" y="74" width="26" height="12" rx="2"/><text class="kt" x="91" y="83" text-anchor="middle" font-size="7.5">Yes</text><rect class="scr" x="108" y="74" width="26" height="12" rx="2"/><text x="121" y="83" text-anchor="middle" font-size="7.5">No</text></svg><figcaption>Click Yes on the admin prompt</figcaption></figure>
+    <svg class="arrow d d-windows"><use href="#chev"/></svg>
+    <figure class="frame d d-windows"><svg viewBox="0 0 150 110"><rect class="scr" x="10" y="80" width="130" height="18" rx="2"/><text x="18" y="92" font-size="8">⊞</text><rect class="bar" x="34" y="84" width="10" height="10" rx="2"/><rect class="bar" x="48" y="84" width="10" height="10" rx="2"/><text x="98" y="92" class="mt" font-size="7">^</text><circle cx="112" cy="89" r="4.5" class="k"/><text x="126" y="92" class="mt" font-size="6.5">10:42</text><path class="ln" d="M112 76v-10" stroke="var(--dev)"/><rect class="bar" x="70" y="40" width="70" height="24" rx="6"/><text x="105" y="50" text-anchor="middle" font-size="7.5" font-weight="700">NetBird</text><text x="105" y="59" text-anchor="middle" class="mt" font-size="6.5">system tray icon</text></svg><figcaption>Icon appears in the system tray<small>Then open PowerShell as Administrator</small></figcaption></figure>
+    <!-- macOS -->
+    <figure class="frame d d-mac"><svg viewBox="0 0 150 110"><use href="#term"/><text x="18" y="46" class="mono dt">$ brew install --cask \</text><text x="18" y="58" class="mono dt">  netbirdio/tap/netbird-ui</text><text x="18" y="78" class="mono dt" fill="#9fd3a0">🍺 netbird-ui installed</text></svg><figcaption>Terminal: brew install<small>or the .pkg from the official page</small></figcaption></figure>
+    <svg class="arrow d d-mac"><use href="#chev"/></svg>
+    <figure class="frame d d-mac"><svg viewBox="0 0 150 110"><use href="#mac"/><text x="75" y="42" text-anchor="middle" font-size="8" font-weight="700">“NetBird” wants to add</text><text x="75" y="52" text-anchor="middle" font-size="8" font-weight="700">VPN configurations</text><rect class="scr" x="26" y="66" width="46" height="14" rx="5"/><text x="49" y="76" text-anchor="middle" font-size="7.5">Don't Allow</text><rect class="k" x="78" y="66" width="46" height="14" rx="5"/><text class="kt" x="101" y="76" text-anchor="middle" font-size="7.5">Allow</text></svg><figcaption>Allow the system prompts<small>Mac password may be asked</small></figcaption></figure>
+    <svg class="arrow d d-mac"><use href="#chev"/></svg>
+    <figure class="frame d d-mac"><svg viewBox="0 0 150 110"><rect class="scr" x="10" y="14" width="130" height="14" rx="3"/><text x="16" y="24" font-size="8"></text><text x="28" y="24" class="mt" font-size="7">Finder  File  Edit</text><circle cx="110" cy="21" r="4.5" class="k"/><text x="126" y="24" class="mt" font-size="6.5">10:42</text><path class="ln" d="M110 32v10" stroke="var(--dev)"/><rect class="bar" x="70" y="46" width="70" height="26" rx="6"/><text x="105" y="57" text-anchor="middle" font-size="7.5" font-weight="700">NetBird</text><text x="105" y="66" text-anchor="middle" class="mt" font-size="6.5">menu bar icon</text></svg><figcaption>Icon appears in the menu bar</figcaption></figure>
+    <!-- Linux -->
+    <figure class="frame d d-linux"><svg viewBox="0 0 150 110"><use href="#term"/><text x="18" y="44" class="mono dt">$ curl -fsSL \</text><text x="18" y="56" class="mono dt">  https://pkgs.netbird.io/install.sh | sh</text><text x="18" y="76" class="mono dt" fill="#9fd3a0">Installing netbird…</text></svg><figcaption>Paste the install command</figcaption></figure>
+    <svg class="arrow d d-linux"><use href="#chev"/></svg>
+    <figure class="frame d d-linux"><svg viewBox="0 0 150 110"><use href="#term"/><text x="18" y="50" class="mono dt">[sudo] password for you: </text><rect x="118" y="43" width="5" height="9" fill="var(--term-ink)"/><text x="18" y="76" class="mono mt" font-size="7">typing stays hidden</text></svg><figcaption>Enter your sudo password<small>Nothing shows while typing</small></figcaption></figure>
+    <svg class="arrow d d-linux"><use href="#chev"/></svg>
+    <figure class="frame d d-linux"><svg viewBox="0 0 150 110"><use href="#term"/><text x="18" y="46" class="mono dt">$ netbird version</text><text x="18" y="62" class="mono dt" fill="#9fd3a0">0.80.0</text></svg><figcaption>Installed<small>No browser here? Ask John for a key</small></figcaption></figure>
+    <!-- Android -->
+    <figure class="frame d d-android"><svg viewBox="0 0 150 110"><use href="#ph-android"/><rect class="bar" x="48" y="14" width="54" height="8" rx="4"/><text x="52" y="20" class="mt" font-size="5.5">Google Play</text><rect class="k" x="52" y="30" width="20" height="20" rx="5"/><path class="ln" d="M57 40c5-7 10-7 10 0" stroke="#fff"/><text x="76" y="38" font-size="7.5" font-weight="700">NetBird</text><text x="76" y="46" class="mt" font-size="6">NetBird GmbH</text><rect class="k" x="52" y="60" width="46" height="13" rx="3"/><text class="kt" x="75" y="69" text-anchor="middle" font-size="7.5">Install</text><text x="75" y="88" text-anchor="middle" class="mt" font-size="6">Android 8 or newer</text></svg><figcaption>Google Play → Install</figcaption></figure>
+    <svg class="arrow d d-android"><use href="#chev"/></svg>
+    <figure class="frame d d-android"><svg viewBox="0 0 150 110"><use href="#ph-android"/><text x="75" y="40" text-anchor="middle" class="mt" font-size="6.5">You'll connect to</text><text x="75" y="50" text-anchor="middle" font-size="7" font-weight="700">NetBird Cloud</text><text x="75" y="60" text-anchor="middle" class="mt" font-size="6">(we change this next)</text><text x="94" y="86" text-anchor="end" fill="var(--dev)" font-size="7.5" font-weight="700" class="cap">Continue</text></svg><figcaption>Tap CONTINUE on the first screen</figcaption></figure>
+    <!-- iOS -->
+    <figure class="frame d d-ios"><svg viewBox="0 0 150 110"><use href="#ph-ios"/><text x="52" y="24" class="mt" font-size="5.5">App Store</text><rect class="k" x="52" y="30" width="20" height="20" rx="6"/><path class="ln" d="M57 40c5-7 10-7 10 0" stroke="#fff"/><text x="76" y="38" font-size="7.5" font-weight="700">NetBird</text><text x="76" y="46" class="mt" font-size="6">Utilities</text><rect x="76" y="56" width="22" height="11" rx="5.5" fill="none" stroke="var(--dev)" stroke-width="1.5"/><text x="87" y="64" text-anchor="middle" fill="var(--dev)" font-size="7" font-weight="700">GET</text></svg><figcaption>App Store → GET</figcaption></figure>
+    <svg class="arrow d d-ios"><use href="#chev"/></svg>
+    <figure class="frame d d-ios"><svg viewBox="0 0 150 110"><use href="#ph-ios"/><circle cx="96" cy="22" r="4" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="96" cy="22" r="1.3" fill="currentColor"/><circle cx="75" cy="58" r="16" fill="var(--dev-soft)" stroke="var(--line)" stroke-width="1.5"/><text x="75" y="61" text-anchor="middle" class="mt" font-size="7">Connect</text><path class="ln" d="M94 50l6 6-6 6" stroke="#d33"/><text x="75" y="90" text-anchor="middle" class="mt" font-size="6.5">not yet · first change the server</text></svg><figcaption>Open it, don't tap Connect yet</figcaption></figure>
+  </div>
+  <a class="chip one" id="installLink" target="_blank" rel="noopener"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14L21 3"/></svg><code id="installLinkText"></code><span class="btn">Open ↗</span></a>
+  <div class="chip cmd d d-mac"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-5-6-5M12 19h8"/></svg><code id="c-brew">brew install --cask netbirdio/tap/netbird-ui</code><button class="btn primary" data-copy="c-brew">Copy</button></div>
+  <div class="chip cmd d d-linux"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-5-6-5M12 19h8"/></svg><code id="c-linux">curl -fsSL https://pkgs.netbird.io/install.sh | sh</code><button class="btn primary" data-copy="c-linux">Copy</button></div>
+  <p>Already installed? Skip ahead. If it uses another NetBird network, ask John first.</p>
+  <div class="nav"><button class="btn" data-go="1">← Back</button><button class="btn primary" data-go="3">Next: Connect →</button></div>
+</section>
+
+<!-- ===== STEP 3 ===== -->
+<section class="panel" data-step="3">
+  <h2><span class="badge">3</span>Connect on <span class="devname"></span></h2>
+  <div class="story">
+    <!-- Windows -->
+    <figure class="frame d d-windows"><svg viewBox="0 0 150 110"><use href="#term"/><text x="16" y="23" font-size="6.5" fill="#cfe3f7">Administrator: Windows PowerShell</text><text x="18" y="46" class="mono dt">PS C:\&gt; netbird up \</text><text x="18" y="58" class="mono dt">  --management-url 'https://your-server…'</text><text x="18" y="78" class="mono dt" fill="#9fd3a0">Opening browser for login…</text></svg><figcaption>Paste into Administrator PowerShell</figcaption></figure>
+    <svg class="arrow d d-windows"><use href="#chev"/></svg>
+    <figure class="frame d d-windows"><svg viewBox="0 0 150 110"><use href="#win"/><rect class="bar" x="16" y="30" width="118" height="9" rx="4"/><text x="22" y="37" class="mono mt">🔒 your-server.example</text><text x="75" y="54" text-anchor="middle" font-size="8.5" font-weight="700">Sign in</text><rect class="bar" x="30" y="60" width="90" height="10" rx="3"/><text x="34" y="67.5" class="mt" font-size="6.5">you@lab · password</text><rect class="gs" x="30" y="74" width="90" height="12" rx="3"/><text x="75" y="83" text-anchor="middle" font-size="8" font-weight="700" fill="var(--ok)">MFA 123 456</text></svg><figcaption>Edge opens: sign in + MFA<small>Then close the tab</small></figcaption></figure>
+    <svg class="arrow d d-windows"><use href="#chev"/></svg>
+    <figure class="frame d d-windows"><svg viewBox="0 0 150 110"><rect class="scr" x="10" y="80" width="130" height="18" rx="2"/><text x="18" y="92" font-size="8">⊞</text><circle cx="112" cy="89" r="4.5" class="g"/><path class="ln" d="M110 89l1.5 1.5 3-3" stroke="#fff" stroke-width="1.2"/><path class="ln" d="M112 76v-8" stroke="var(--ok)"/><rect class="gs" x="56" y="34" width="84" height="34" rx="6"/><text x="98" y="48" text-anchor="middle" font-size="8" font-weight="700" fill="var(--ok)">NetBird · Connected</text><text x="98" y="59" text-anchor="middle" class="mt" font-size="6.5">right-click: Settings · Disconnect</text></svg><figcaption>Tray icon turns green<small>Prefer the app? Settings → server URL</small></figcaption></figure>
+    <!-- macOS -->
+    <figure class="frame d d-mac"><svg viewBox="0 0 150 110"><use href="#term"/><text x="18" y="44" class="mono dt">$ sudo netbird up \</text><text x="18" y="56" class="mono dt">  --management-url 'https://your-server…'</text><text x="18" y="70" class="mono dt">Password: </text><rect x="66" y="63" width="5" height="9" fill="var(--term-ink)"/><text x="18" y="88" class="mono dt" fill="#9fd3a0">Opening browser for login…</text></svg><figcaption>Terminal: paste, enter Mac password</figcaption></figure>
+    <svg class="arrow d d-mac"><use href="#chev"/></svg>
+    <figure class="frame d d-mac"><svg viewBox="0 0 150 110"><use href="#mac"/><rect class="bar" x="30" y="30" width="90" height="9" rx="4.5"/><text x="75" y="37" text-anchor="middle" class="mono mt">🔒 your-server.example</text><text x="75" y="54" text-anchor="middle" font-size="8.5" font-weight="700">Sign in</text><rect class="bar" x="30" y="60" width="90" height="10" rx="3"/><text x="34" y="67.5" class="mt" font-size="6.5">you@lab · password</text><rect class="gs" x="30" y="74" width="90" height="12" rx="3"/><text x="75" y="83" text-anchor="middle" font-size="8" font-weight="700" fill="var(--ok)">MFA 123 456</text></svg><figcaption>Safari opens: sign in + MFA</figcaption></figure>
+    <svg class="arrow d d-mac"><use href="#chev"/></svg>
+    <figure class="frame d d-mac"><svg viewBox="0 0 150 110"><rect class="scr" x="10" y="14" width="130" height="14" rx="3"/><text x="16" y="24" font-size="8"></text><circle cx="110" cy="21" r="4.5" class="g"/><rect class="scr" x="66" y="32" width="74" height="54" rx="6"/><path class="ln" d="M106 32l4-5 4 5"/><circle cx="76" cy="42" r="2.5" class="g"/><text x="82" y="45" font-size="7.5" font-weight="700">Connected</text><text x="74" y="58" class="mt" font-size="6.5">Disconnect</text><text x="74" y="69" class="mt" font-size="6.5">Settings…</text><text x="74" y="80" class="mt" font-size="6.5">Quit</text></svg><figcaption>Menu bar icon: Connected</figcaption></figure>
+    <!-- Linux -->
+    <figure class="frame d d-linux"><svg viewBox="0 0 150 110"><use href="#term"/><text x="18" y="44" class="mono dt">$ sudo netbird up \</text><text x="18" y="56" class="mono dt">  --management-url 'https://your-server…'</text><text x="18" y="78" class="mono dt" fill="#9fd3a0">Please do the SSO login in your browser</text></svg><figcaption>Paste into Terminal</figcaption></figure>
+    <svg class="arrow d d-linux"><use href="#chev"/></svg>
+    <figure class="frame d d-linux"><svg viewBox="0 0 150 110"><use href="#term"/><text x="18" y="40" class="mono dt" fill="#9fd3a0">If no browser opens, open this link:</text><text x="18" y="54" class="mono" fill="#8fc3f2" text-decoration="underline">https://your-server…/login?code=…</text><text x="18" y="78" class="mono dt">Sign in + MFA, then come back.</text></svg><figcaption>Browser opens (or a link is printed)<small>Sign in + MFA</small></figcaption></figure>
+    <svg class="arrow d d-linux"><use href="#chev"/></svg>
+    <figure class="frame d d-linux"><svg viewBox="0 0 150 110"><use href="#term"/><text x="18" y="46" class="mono dt">$ netbird status</text><text x="18" y="60" class="mono dt" fill="#9fd3a0">Management: Connected</text><text x="18" y="72" class="mono dt">NetBird IP: 100.x.x.x</text></svg><figcaption>Terminal says Connected</figcaption></figure>
+    <!-- Android -->
+    <figure class="frame d d-android"><svg viewBox="0 0 150 110"><use href="#ph-android"/><rect class="bar" x="48" y="14" width="54" height="10"/><path class="ln" d="M52 17h7M52 19.5h7M52 22h7" stroke="var(--dev)" stroke-width="1.2"/><rect class="scr" x="48" y="14" width="40" height="88" rx="0"/><rect class="bar" x="48" y="14" width="40" height="18"/><text x="52" y="26" font-size="6.5" font-weight="700">NetBird</text><text x="53" y="44" font-size="6.5">Peers</text><rect class="k" x="49" y="48" width="38" height="11" rx="2"/><text class="kt" x="53" y="56" font-size="6.5">Change Server</text><text x="53" y="70" font-size="6.5">Settings</text><text x="53" y="82" font-size="6.5">Log out</text><circle cx="20" cy="18" r="7" class="k"/><text class="kt" x="20" y="21" text-anchor="middle" font-size="8">1</text></svg><figcaption>☰ menu → Change Server<small>Confirm the warning (clears defaults)</small></figcaption></figure>
+    <svg class="arrow d d-android"><use href="#chev"/></svg>
+    <figure class="frame d d-android"><svg viewBox="0 0 150 110"><use href="#ph-android"/><rect class="scr" x="49" y="30" width="52" height="50" rx="3"/><text x="54" y="41" font-size="7" font-weight="700">Change Server</text><text x="54" y="54" class="mono" font-size="5.5">your-server.example</text><path class="ln" d="M54 57h42" stroke="var(--dev)" stroke-width="1.2"/><text x="70" y="74" text-anchor="end" fill="var(--muted)" font-size="6" font-weight="700" class="cap">Cancel</text><text x="96" y="74" text-anchor="end" fill="var(--dev)" font-size="6" font-weight="700" class="cap">Change</text><circle cx="20" cy="18" r="7" class="k"/><text class="kt" x="20" y="21" text-anchor="middle" font-size="8">2</text></svg><figcaption>Paste the address → CHANGE</figcaption></figure>
+    <svg class="arrow d d-android"><use href="#chev"/></svg>
+    <figure class="frame d d-android"><svg viewBox="0 0 150 110"><use href="#ph-android"/><circle cx="75" cy="36" r="14" fill="var(--dev-soft)" stroke="var(--dev)" stroke-width="2"/><path class="ln" d="M75 29v8" stroke="var(--dev)" stroke-width="2"/><rect class="scr" x="49" y="56" width="52" height="42" rx="3"/><text x="54" y="66" font-size="6.5" font-weight="700">Connection request</text><text x="54" y="76" class="mt" font-size="5.5">NetBird wants to set up a</text><text x="54" y="83" class="mt" font-size="5.5">VPN connection</text><text x="80" y="94" text-anchor="end" fill="var(--muted)" font-size="6" font-weight="700" class="cap">Cancel</text><text x="97" y="94" text-anchor="end" fill="var(--dev)" font-size="6" font-weight="700" class="cap">OK</text><circle cx="20" cy="18" r="7" class="k"/><text class="kt" x="20" y="21" text-anchor="middle" font-size="8">3</text></svg><figcaption>Tap the big button → OK<small>Disconnect Tailscale first</small></figcaption></figure>
+    <svg class="arrow d d-android"><use href="#chev"/></svg>
+    <figure class="frame d d-android"><svg viewBox="0 0 150 110"><use href="#ph-android"/><rect class="bar" x="48" y="14" width="54" height="10"/><text x="52" y="21" class="mono mt" font-size="5.5">🔒 your-server.example</text><text x="75" y="40" text-anchor="middle" font-size="8" font-weight="700">Sign in</text><rect class="bar" x="53" y="46" width="44" height="9" rx="2"/><text x="56" y="52.5" class="mt" font-size="5.5">you@lab · password</text><rect class="gs" x="53" y="60" width="44" height="11" rx="2"/><text x="75" y="68" text-anchor="middle" font-size="7" font-weight="700" fill="var(--ok)">MFA 123 456</text><text x="75" y="90" text-anchor="middle" class="mt" font-size="6">Chrome opens · then back to the app</text><circle cx="20" cy="18" r="7" class="k"/><text class="kt" x="20" y="21" text-anchor="middle" font-size="8">4</text></svg><figcaption>Chrome: sign in + MFA</figcaption></figure>
+    <!-- iOS -->
+    <figure class="frame d d-ios"><svg viewBox="0 0 150 110"><use href="#ph-ios"/><circle cx="96" cy="22" r="4" fill="none" stroke="var(--dev)" stroke-width="1.5"/><circle cx="96" cy="22" r="1.3" fill="var(--dev)"/><rect class="scr" x="48" y="34" width="54" height="56" rx="8"/><text x="54" y="46" class="mt" font-size="5.5" class="cap">SERVER</text><rect class="bar" x="51" y="50" width="48" height="12" rx="4"/><text x="55" y="58.5" font-size="6.5" font-weight="700">Change Server</text><text x="94" y="58.5" class="mt" font-size="7">›</text><text x="55" y="76" class="mt" font-size="6.5">About</text><text x="94" y="76" class="mt" font-size="7">›</text><circle cx="20" cy="18" r="7" class="k"/><text class="kt" x="20" y="21" text-anchor="middle" font-size="8">1</text></svg><figcaption>Settings ⚙ → Change Server<small>Label may differ by version</small></figcaption></figure>
+    <svg class="arrow d d-ios"><use href="#chev"/></svg>
+    <figure class="frame d d-ios"><svg viewBox="0 0 150 110"><use href="#ph-ios"/><rect class="scr" x="50" y="32" width="50" height="46" rx="8"/><text x="75" y="44" text-anchor="middle" font-size="6.5" font-weight="700">Server address</text><rect class="bar" x="55" y="49" width="40" height="10" rx="3"/><text x="57" y="56" class="mono" font-size="5">your-server.example</text><path class="ln" d="M50 64h50M75 64v14" stroke="var(--line)"/><text x="62.5" y="73" text-anchor="middle" fill="var(--dev)" font-size="6.5">Cancel</text><text x="87.5" y="73" text-anchor="middle" fill="var(--dev)" font-size="6.5" font-weight="700">Save</text><circle cx="20" cy="18" r="7" class="k"/><text class="kt" x="20" y="21" text-anchor="middle" font-size="8">2</text></svg><figcaption>Paste the address → Save</figcaption></figure>
+    <svg class="arrow d d-ios"><use href="#chev"/></svg>
+    <figure class="frame d d-ios"><svg viewBox="0 0 150 110"><use href="#ph-ios"/><circle cx="75" cy="34" r="13" fill="var(--dev-soft)" stroke="var(--dev)" stroke-width="2"/><text x="75" y="37" text-anchor="middle" fill="var(--dev)" font-size="6" font-weight="700">Connect</text><rect class="scr" x="50" y="52" width="50" height="46" rx="8"/><text x="75" y="63" text-anchor="middle" font-size="5.8" font-weight="700">“NetBird” Would Like to</text><text x="75" y="70" text-anchor="middle" font-size="5.8" font-weight="700">Add VPN Configurations</text><path class="ln" d="M50 82h50M75 82v16" stroke="var(--line)"/><text x="62.5" y="92" text-anchor="middle" fill="var(--dev)" font-size="5.5">Don't Allow</text><text x="87.5" y="92" text-anchor="middle" fill="var(--dev)" font-size="6" font-weight="700">Allow</text><circle cx="20" cy="18" r="7" class="k"/><text class="kt" x="20" y="21" text-anchor="middle" font-size="8">3</text></svg><figcaption>Tap Connect → Allow<small>Face ID / passcode may be asked</small></figcaption></figure>
+    <svg class="arrow d d-ios"><use href="#chev"/></svg>
+    <figure class="frame d d-ios"><svg viewBox="0 0 150 110"><use href="#ph-ios"/><text x="75" y="40" text-anchor="middle" font-size="8" font-weight="700">Sign in</text><rect class="bar" x="53" y="46" width="44" height="9" rx="3"/><text x="56" y="52.5" class="mt" font-size="5.5">you@lab · password</text><rect class="gs" x="53" y="60" width="44" height="11" rx="3"/><text x="75" y="68" text-anchor="middle" font-size="7" font-weight="700" fill="var(--ok)">MFA 123 456</text><rect class="bar" x="48" y="86" width="54" height="12"/><text x="75" y="94" text-anchor="middle" class="mono mt" font-size="5.5">🔒 your-server.example</text><circle cx="20" cy="18" r="7" class="k"/><text class="kt" x="20" y="21" text-anchor="middle" font-size="8">4</text></svg><figcaption>Safari: sign in + MFA<small>Then back to the app</small></figcaption></figure>
+  </div>
+  <div class="chip cmd d d-desktop"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-5-6-5M12 19h8"/></svg><code id="connectCmd"></code><button class="btn primary" data-copy="connectCmd">Copy</button></div>
+  <div class="chip one d d-phone"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><code id="addr2">(paste the address above first)</code><button class="btn primary" data-copy="addr2">Copy</button></div>
+  <div class="note d d-phone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg><span>Only one VPN can be active on a phone: disconnect Tailscale there first.</span></div>
+  <div class="nav"><button class="btn" data-go="2">← Back</button><button class="btn primary" data-go="4">Next: Check →</button></div>
+</section>
+
+<!-- ===== STEP 4 ===== -->
+<section class="panel" data-step="4">
+  <h2><span class="badge">4</span>Check on <span class="devname"></span>, then tell John</h2>
+  <div class="story">
+    <figure class="frame d d-windows"><svg viewBox="0 0 150 110"><use href="#term"/><text x="18" y="42" class="mono dt">PS C:\&gt; netbird status</text><text x="18" y="56" class="mono dt" fill="#9fd3a0">Management: Connected</text><text x="18" y="68" class="mono dt" fill="#9fd3a0">Signal: Connected</text><text x="18" y="82" class="mono dt">NetBird IP: 100.x.x.x</text></svg><figcaption>PowerShell: netbird status</figcaption></figure>
+    <figure class="frame d d-mac"><svg viewBox="0 0 150 110"><use href="#term"/><text x="18" y="42" class="mono dt">$ netbird status</text><text x="18" y="56" class="mono dt" fill="#9fd3a0">Management: Connected</text><text x="18" y="68" class="mono dt" fill="#9fd3a0">Signal: Connected</text><text x="18" y="82" class="mono dt">NetBird IP: 100.x.x.x</text></svg><figcaption>Terminal: netbird status<small>or click the menu bar icon</small></figcaption></figure>
+    <figure class="frame d d-linux"><svg viewBox="0 0 150 110"><use href="#term"/><text x="18" y="42" class="mono dt">$ netbird status</text><text x="18" y="56" class="mono dt" fill="#9fd3a0">Management: Connected</text><text x="18" y="68" class="mono dt" fill="#9fd3a0">Signal: Connected</text><text x="18" y="82" class="mono dt">NetBird IP: 100.x.x.x</text></svg><figcaption>Terminal: netbird status</figcaption></figure>
+    <figure class="frame d d-android"><svg viewBox="0 0 150 110"><use href="#ph-android"/><path d="M50 16h6M52 14v4" class="ln" stroke-width="1" stroke="var(--muted)"/><text x="88" y="20" class="mt" font-size="5.5">🔑 10:42</text><circle cx="75" cy="44" r="15" class="g"/><path class="ln" d="M68 44l5 5 9-10" stroke="#fff" stroke-width="2"/><text x="75" y="70" text-anchor="middle" font-size="7.5" font-weight="700" fill="var(--ok)">Connected</text><text x="75" y="82" text-anchor="middle" class="mono" font-size="7">100.x.x.x</text></svg><figcaption>App shows Connected + IP<small>Key icon 🔑 in the status bar</small></figcaption></figure>
+    <figure class="frame d d-ios"><svg viewBox="0 0 150 110"><use href="#ph-ios"/><rect x="50" y="16" width="14" height="7" rx="2" fill="var(--dev)"/><text x="57" y="21.5" text-anchor="middle" fill="#fff" font-size="5" font-weight="700">VPN</text><text x="96" y="22" text-anchor="end" class="mt" font-size="5.5">10:42</text><circle cx="75" cy="48" r="15" class="g"/><path class="ln" d="M68 48l5 5 9-10" stroke="#fff" stroke-width="2"/><text x="75" y="74" text-anchor="middle" font-size="7.5" font-weight="700" fill="var(--ok)">Connected</text><text x="75" y="86" text-anchor="middle" class="mono" font-size="7">100.x.x.x</text></svg><figcaption>App shows Connected + IP<small>VPN badge in the status bar</small></figcaption></figure>
+    <svg class="arrow"><use href="#chev"/></svg>
+    <figure class="frame"><svg viewBox="0 0 150 110"><rect class="bar" x="14" y="30" width="96" height="40" rx="10"/><path class="bar" d="M24 70l-6 10 14-6z"/><text x="24" y="47" font-size="7.5" font-weight="700" id="sendName">my-windows-pc</text><text x="24" y="60" class="mono" font-size="7.5">100.x.x.x</text><circle cx="128" cy="50" r="12" class="k"/><path class="ln" d="M122 50h11M129 45l5 5-5 5" stroke="var(--dev-ink)"/></svg><figcaption>Send John: name + IP<small>Privately, not in a group chat</small></figcaption></figure>
+    <svg class="arrow"><use href="#chev"/></svg>
+    <figure class="frame"><svg viewBox="0 0 150 110"><rect class="bar" x="20" y="40" width="60" height="18" rx="9"/><text x="50" y="52" text-anchor="middle" font-size="7" font-weight="700" fill="var(--dev)">lab group</text><path class="ln" d="M84 49h18" stroke="var(--ok)"/><rect class="gs" x="106" y="40" width="26" height="22" rx="4" stroke="var(--ok)" stroke-width="1.5"/><path class="ln" d="M112 40v-6a7 7 0 0 1 14 0" stroke="var(--ok)"/><circle cx="119" cy="51" r="2.5" class="g"/><text x="75" y="84" text-anchor="middle" class="mt" font-size="7">John adds your device → access opens</text></svg><figcaption>John assigns access<small>Until then: connected, nothing reachable</small></figcaption></figure>
+  </div>
+  <div class="chip cmd d d-desktop"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-5-6-5M12 19h8"/></svg><code id="statusCmd">netbird status</code><button class="btn primary" data-copy="statusCmd">Copy</button></div>
+  <div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg><span>Your NetBird IP must start with <code>the range John gave you</code> — that proves you are on our server. Send John your device name + that IP.</span></div>
+  <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg><span>IP starts with something else (e.g. 100.117.)? You signed in to a different NetBird network, usually the default NetBird Cloud. Go back to step 3, set our server address, and sign in with the account John invited. Keep Tailscale until John confirms your access.</span></div>
+  <div class="nav"><button class="btn" data-go="3">← Back</button><button class="btn primary" data-go="done">Done ✓</button></div>
+  <div class="done-banner" id="doneBanner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>All four steps done. John will assign your access and confirm.</div>
+</section>
+<p id="feedback" role="status" aria-live="polite"></p>
+
+<h3>Something failed?</h3>
+<div class="chips">
+  <details><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0 1 14-5M20 12a8 8 0 0 1-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Sign-in page won't load</summary><p>Campus or office Wi-Fi may block our server. Sign in once on a phone hotspot, then tell John which network failed. Don't change proxy, DNS, or firewall settings.</p></details>
+  <details><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>Connected, nothing works</summary><p>Expected until John assigns your device group. Send him the device name and NetBird IP.</p></details>
+  <details><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>“Invalid credentials”</summary><p>Almost always the wrong email. Use exactly the address John invited (for example your work address, not Gmail, and not a shortened or lengthened version of your name). Only that address has an account. Need a different address? Ask John for a new invitation.</p></details>
+  <details><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>IP doesn't start with the range John gave you</summary><p>The app is signed in to a different NetBird network (usually the default NetBird Cloud, or a Google/GitHub account). Disconnect, set the server to the address at the top (step 3), and sign in with the lab account John invited. Then send the new IP.</p></details>
+  <details><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg>Certificate warning</summary><p>Stop. Check the address matches the bar at the top, then ask John. Never bypass it.</p></details>
+  <details class="d d-phone"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M9 12l2 2 4-4"/></svg>VPN permission denied</summary><p>Disconnect Tailscale or any other VPN on the phone, then tap the NetBird button again and allow the VPN prompt.</p></details>
+  <details class="d d-desktop"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3"/></svg>“Command not found”</summary><p>Finish the install and open a new terminal window<span class="d d-windows"> (PowerShell as Administrator)</span>.</p></details>
+  <details class="d d-mac"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="11" rx="2"/><path d="M2 19h20"/></svg>“System extension blocked”</summary><p>Open System Settings → Privacy &amp; Security and allow NetBird, then try again.</p></details>
+  <details><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M4 6h16M4 18h16"/></svg>Ping fails</summary><p>Ping is blocked on purpose. Test the service John approved instead.</p></details>
+</div>
+<p class="sub" style="font-size:14px;margin-top:10px">Send John your device, the step number, and the error text. Never send passwords, codes, invitation links, or private keys.</p>
+
+<details class="ssh"><summary>SSH after John grants access</summary>
+  <p>John gives you three values: host, port, OS username. Use your own existing key.</p>
+  <div class="chip cmd d d-desktop"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-5-6-5M12 19h8"/></svg><code id="sshCmd"></code><button class="btn primary" data-copy="sshCmd">Copy</button></div>
+  <p class="d d-phone">On a phone use an SSH app (Termius, JuiceSSH, Blink) with those values.</p>
+</details>
+
+<footer>October 16, 2026 · Server live since October 10, 2026 · Official docs: <a href="https://docs.netbird.io/get-started/install/windows">Windows</a> · <a href="https://docs.netbird.io/get-started/install/macos">macOS</a> · <a href="https://docs.netbird.io/get-started/install/linux">Linux</a> · <a href="https://docs.netbird.io/get-started/install/android">Android</a> · <a href="https://docs.netbird.io/get-started/install/ios">iOS</a><br>Share only with team members. Nothing you type here is stored or uploaded. Screens are schematic; exact labels can differ by app version.</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let ADDR='';
+const unixSSH='printf "Host from John: "; read -r h; printf "OS username: "; read -r u; printf "SSH port: "; read -r p; ssh -p "$p" "$u@$h"';
+const winSSH='$H = Read-Host "Host from John"; $U = Read-Host "OS username"; $P = Read-Host "SSH port"; ssh -p $P "$U@$H"';
+const I={shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>',browser:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>',key:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="8" cy="14" r="4"/><path d="M11 11l9-9M16 6l3 3"/></svg>',term:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 17l6-5-6-5M12 19h8"/></svg>',phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="7" y="2" width="10" height="20" rx="2"/></svg>',one:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8"/></svg>',lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>'};
+const DEV={
+ windows:{kind:'desktop',name:'Windows',you:'Your Windows PC',sudo:'',link:'https://docs.netbird.io/get-started/install/windows',ssh:winSSH,send:'my-windows-pc',req:[[I.shield,'Admin rights for the installer'],[I.browser,'Sign-in opens in Edge/Chrome'],[I.term,'PowerShell as Administrator']]},
+ mac:{kind:'desktop',name:'macOS',you:'Your Mac',sudo:'sudo ',link:'https://docs.netbird.io/get-started/install/macos',ssh:unixSSH,send:'my-macbook',req:[[I.lock,'Allow the VPN prompt'],[I.key,'Mac password for sudo'],[I.browser,'Sign-in opens in Safari']]},
+ linux:{kind:'desktop',name:'Linux',you:'Your Linux machine',sudo:'sudo ',link:'https://docs.netbird.io/get-started/install/linux',ssh:unixSSH,send:'my-linux-box',req:[[I.term,'sudo + curl'],[I.browser,'Browser, or a one-time key from John'],[I.key,'ARM works too']]},
+ android:{kind:'phone',name:'Android',you:'Your Android phone',link:'https://docs.netbird.io/get-started/install/android',ssh:'',send:'my-android',req:[[I.phone,'Android 8 or newer'],[I.one,'Only one VPN at a time'],[I.browser,'Sign-in opens in Chrome']]},
+ ios:{kind:'phone',name:'iPhone / iPad',you:'Your iPhone',link:'https://docs.netbird.io/get-started/install/ios',ssh:'',send:'my-iphone',req:[[I.lock,'Allow the VPN profile'],[I.one,'Only one VPN at a time'],[I.browser,'Sign-in opens in Safari']]}};
+let dev='windows',step=1;const done=new Set();
+try{const d=localStorage.getItem('nb-dev');if(DEV[d])dev=d}catch{}
+function render(){const c=DEV[dev];document.body.dataset.kind=c.kind;document.body.dataset.dev=dev;
+ document.querySelectorAll('.tile').forEach(t=>t.setAttribute('aria-pressed',String(t.dataset.dev===dev)));
+ document.querySelectorAll('.devname').forEach(e=>e.textContent=c.name);$('heroYou').textContent=c.you;$('sendName').textContent=c.send;
+ $('req').innerHTML=c.req.map(([i,t])=>`<li>${i}${t}</li>`).join('');
+ $('installLink').href=c.link;$('installLinkText').textContent=c.link.replace('https://','');
+ const A=ADDR||'<address from John>';$('connectCmd').textContent=`${c.sudo||''}netbird up --management-url '${A}'`;$('addr').textContent=A;$('addr2').textContent=ADDR||'(paste the address above first)';
+ $('sshCmd').textContent=c.ssh;
+ document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',+p.dataset.step===step));
+ document.querySelectorAll('#stepper li').forEach((li,i)=>{li.classList.toggle('active',i+1===step);li.classList.toggle('done',done.has(i+1));li.querySelector('.dot').textContent=done.has(i+1)?'✓':String(i+1)});
+ $('bar').style.width=(done.size/4*100)+'%';
+ document.querySelectorAll('.story').forEach(s=>s.scrollLeft=0);}
+document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>{dev=t.dataset.dev;try{localStorage.setItem('nb-dev',dev)}catch{}render()});
+document.querySelectorAll('#stepper button').forEach(b=>b.onclick=()=>{step=+b.dataset.step;render()});
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{done.add(step);if(b.dataset.go==='done'){render();$('doneBanner').classList.add('show');return}step=+b.dataset.go;render();$('stepper').scrollIntoView({behavior:'smooth',block:'start'})});
+document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{const el=$(b.dataset.copy);const text=el.textContent;try{await navigator.clipboard.writeText(text);b.classList.add('copied');const old=b.textContent;b.textContent='Copied ✓';setTimeout(()=>{b.textContent=old;b.classList.remove('copied')},1400)}catch{const r=document.createRange();r.selectNodeContents(el);const s=window.getSelection();s.removeAllRanges();s.addRange(r);$('feedback').textContent='Selected: press Ctrl+C (Windows/Linux) or ⌘C (Mac).'}});
+const inp=$('addrIn');if(inp)inp.oninput=()=>{const v=inp.value.trim();ADDR=/^https:\/\/[a-z0-9.-]+(:[0-9]{1,5})?\/?$/i.test(v)?v.replace(/\/+$/,''):'';render()};render();
+</script>
+</body>
+</html>
